@@ -6,17 +6,73 @@ using UnityEngine.UI;
 public class EventsButton : MonoBehaviour
 {
     public Button buttonCraft;
+    public Button buttonBag;
+
+    public GameObject craft; 
+    public GameObject bag; 
+
+
+    bool checkClick = false ;
+    int i = 0;
+    int y = 0;
     void Start()
-    {
-        Button button = buttonCraft.GetComponent<Button>();
-        button.onClick.AddListener(click);
+    {   
+        bag.SetActive(false);
+        craft.SetActive(false);
+        Button button1 = buttonCraft.GetComponent<Button>();
+        Button button2 = buttonBag.GetComponent<Button>();
+        button1.onClick.AddListener(() => clickCraft());
+        button2.onClick.AddListener(() => clickBag());
+     
     }
     void Update()
     {
         
     }
 
-    void click (){
-        Debug.Log("hello");
+    void clickCraft (){
+           Debug.Log("Craft");
+
+            if(craft.activeInHierarchy == false){
+            Debug.Log("a");
+            craft.SetActive(true);
+        }else{
+            Debug.Log("b");
+            craft.SetActive(false);
+        }
+        if(bag.activeInHierarchy == true){
+            bag.SetActive(false);
+        }
+        
+        // if(bag != null){
+        //     bag.SetActive(false);
+        // }
+        // y++;
+        // if(y%2 == 0){
+        //     craft.SetActive(false);
+        // }else if(y%2 != 0){
+        //       craft.SetActive(true);
+        // }
+    }
+    void clickBag (){
+        Debug.Log("Bag");
+        if(bag.activeInHierarchy == false){
+            Debug.Log("a");
+            bag.SetActive(true);
+        }else{
+            Debug.Log("b");
+            bag.SetActive(false);
+        }
+        if(craft.activeInHierarchy == true){
+            craft.SetActive(false);
+        }
+    
+        // i++;
+        // if(i%2 == 0){
+        //     bag.SetActive(false);
+        // }else if(i%2 != 0){
+        //       bag.SetActive(true);
+        // }
+        
     }
 }
