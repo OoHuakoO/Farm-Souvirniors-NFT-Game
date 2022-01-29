@@ -42,7 +42,7 @@ public class MoveMent : MonoBehaviour
     }
 
     void flipMovement(){
-        bool walkSide = Mathf.Abs(myRigidBody2D.velocity.x) > Mathf.Epsilon || Mathf.Abs(myRigidBody2D.velocity.y) > Mathf.Epsilon;
+        bool walkSide = Mathf.Abs(myRigidBody2D.velocity.x) > Mathf.Epsilon ;
         
         if(walkSide){
             transform.localScale = new Vector2(Mathf.Sign(myRigidBody2D.velocity.x) , 1f);
