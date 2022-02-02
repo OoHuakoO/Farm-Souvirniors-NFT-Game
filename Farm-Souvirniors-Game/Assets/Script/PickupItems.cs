@@ -20,8 +20,8 @@ public class PickupItems : MonoBehaviour
    }
        void OnHavest (InputValue value){
          if(clash){
-          Debug.Log("test2");
           Destroy(gameObject);
+          clash = false;
          }
       
       }

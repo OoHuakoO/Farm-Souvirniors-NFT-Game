@@ -12,11 +12,11 @@ public class EventsButton : MonoBehaviour
     public GameObject bag; 
 
 
-    bool checkClick = false ;
-    int i = 0;
-    int y = 0;
+  
+ 
     void Start()
     {   
+      
         bag.SetActive(false);
         craft.SetActive(false);
         Button button1 = buttonCraft.GetComponent<Button>();
@@ -24,10 +24,6 @@ public class EventsButton : MonoBehaviour
         button1.onClick.AddListener(() => clickCraft());
         button2.onClick.AddListener(() => clickBag());
      
-    }
-    void Update()
-    {
-        
     }
 
     void clickCraft (){
@@ -40,7 +36,7 @@ public class EventsButton : MonoBehaviour
             Debug.Log("b");
             craft.SetActive(false);
         }
-        if(bag.activeInHierarchy == true){
+        if(bag.activeInHierarchy){
             bag.SetActive(false);
         }
         
@@ -63,7 +59,7 @@ public class EventsButton : MonoBehaviour
             Debug.Log("b");
             bag.SetActive(false);
         }
-        if(craft.activeInHierarchy == true){
+        if(craft.activeInHierarchy){
             craft.SetActive(false);
         }
     
