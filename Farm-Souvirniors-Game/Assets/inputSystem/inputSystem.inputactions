@@ -771,6 +771,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Action",
+            "id": "027e6225-2481-437e-8ef7-09973b3b8acb",
+            "actions": [
+                {
+                    "name": "Havest",
+                    "type": "Button",
+                    "id": "d7930bf9-c43d-4cd6-91d8-9d2dafa93584",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "122ea574-4442-4ea1-8602-e0d7ac150360",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Havest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
