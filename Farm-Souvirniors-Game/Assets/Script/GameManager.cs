@@ -4,14 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ShowItemInBag : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    
+   public static GameManager instance;
     // type items
     public List<Items> items = new List<Items>();
     //Amount items
     public List<int> itemNumbers = new List<int>();
     public GameObject[] slots ;
+
+ private void Awake() {
+        if(instance == null){
+            instance = this;
+        }
+        else{
+            if(instance != this){
+                Destroy(gameObject);
+            }
+        }
+        DontDestroyOnLoad(gameObject);
+   }
+
+
 
    private void Start() {
         displayItems();
@@ -32,7 +46,6 @@ public class ShowItemInBag : MonoBehaviour
     }
 
      public void addItem (Items item){
-     
          if(!items.Contains(item)){
              items.Add(item);
              itemNumbers.Add(1);
@@ -45,5 +58,6 @@ public class ShowItemInBag : MonoBehaviour
                  }
              }
          }
+         displayItems();
     }
 }
