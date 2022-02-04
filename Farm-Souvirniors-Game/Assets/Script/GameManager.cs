@@ -32,24 +32,36 @@ public class GameManager : MonoBehaviour
     }
 
     void displayItems(){
-        for(int i=0 ; i < items.Count;i++){
-            Debug.Log(items[i]);
-            //update slot image
+     
+            for(int i=0 ; i<slots.Length; i++){
+                if(i < items.Count){
+                     //update slot image
             slots[i].transform.GetChild(1).GetComponent<Image>().color = new Color(1,1,1,1);
             slots[i].transform.GetChild(1).GetComponent<Image>().sprite = items[i].itemSprite;
 
             //update Amount Items
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color(0,0,0,1);
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = itemNumbers[i].ToString();
+                }  
+                else{
+                     //update slot image
+            slots[i].transform.GetChild(1).GetComponent<Image>().color = new Color(1,1,1,0);
+            slots[i].transform.GetChild(1).GetComponent<Image>().sprite = null;
 
-        }
+            //update Amount Items
+            slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color(0,0,0,0);
+            slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
+                } 
+            }
+           
+
+        
     }
 
      public void addItem (Items item){
          if(!items.Contains(item)){
              items.Add(item);
              itemNumbers.Add(1);
-                Debug.Log("finush");
          }else{
              Debug.Log("you already have this item");
              for(int i=0;i<items.Count;i++){
@@ -59,5 +71,24 @@ public class GameManager : MonoBehaviour
              }
          }
          displayItems();
+    }
+
+    public void useItem (Items item){
+     
+        if(items.Contains(item)){
+            for(int i=0 ; i < items.Count; i++){
+                if(item == items[i]){
+                    itemNumbers[i]--;
+                    if(itemNumbers[i] == 0){
+                        
+                        items.Remove(item);
+                        itemNumbers.Remove(itemNumbers[i]);
+                    }
+                }
+            }
+        }else{
+            Debug.Log("No Item in Bag ");
+        }
+         displayItems();  
     }
 }

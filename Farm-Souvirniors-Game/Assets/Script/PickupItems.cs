@@ -20,9 +20,14 @@ public class PickupItems : MonoBehaviour
    
        void OnHavest (InputValue value){
          if(clash){
-          Destroy(gameObject);
-          clash = false;
-          GameManager.instance.addItem(itemData);
+           if(GameManager.instance.items.Count < GameManager.instance.slots.Length){
+              Destroy(gameObject);
+              clash = false;
+              GameManager.instance.addItem(itemData);
+           }else{
+             Debug.Log("Slot Full");
+           }
+         
          }
       
       }
