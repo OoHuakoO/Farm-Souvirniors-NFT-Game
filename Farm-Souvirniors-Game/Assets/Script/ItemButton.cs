@@ -9,6 +9,7 @@ public class ItemButton : MonoBehaviour
  private Items getThisItem (){
      for(int i = 0;i<GameManager.instance.items.Count;i++){
          if(buttonId == i){
+        
              thisItem = GameManager.instance.items[i];
          }
      }

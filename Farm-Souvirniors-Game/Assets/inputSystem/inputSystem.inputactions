@@ -804,6 +804,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Crop",
+                    "type": "Button",
+                    "id": "dffa59b5-7724-48cc-a20a-bd2f30924efd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -815,6 +824,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Havest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5dac0d4d-fab0-4293-88d8-c87d1826a274",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Crop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

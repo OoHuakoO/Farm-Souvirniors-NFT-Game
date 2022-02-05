@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PickupItems : MonoBehaviour
 { 
 
-        bool havest = false;
         bool clash = false;
         public Items itemData ;
         

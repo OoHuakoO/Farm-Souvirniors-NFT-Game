@@ -12,7 +12,16 @@ public class GameManager : MonoBehaviour
     //Amount items
     public List<int> itemNumbers = new List<int>();
     public GameObject[] slots ;
+    public Sprite imageClick;
+    public GameObject showCrop;
 
+    int indexAmountItem;
+    Items nameItem;
+
+    bool checkClickItem = false;
+
+
+    
  private void Awake() {
         if(instance == null){
             instance = this;
@@ -42,15 +51,17 @@ public class GameManager : MonoBehaviour
             //update Amount Items
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color(0,0,0,1);
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = itemNumbers[i].ToString();
-                }  
-                else{
-                     //update slot image
+            }  
+            else{
+             //update slot image
             slots[i].transform.GetChild(1).GetComponent<Image>().color = new Color(1,1,1,0);
             slots[i].transform.GetChild(1).GetComponent<Image>().sprite = null;
 
-            //update Amount Items
+            //update Amount Item
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = new Color(0,0,0,0);
             slots[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = null;
+
+            
                 } 
             }
            
@@ -78,12 +89,16 @@ public class GameManager : MonoBehaviour
         if(items.Contains(item)){
             for(int i=0 ; i < items.Count; i++){
                 if(item == items[i]){
-                    itemNumbers[i]--;
-                    if(itemNumbers[i] == 0){
-                        
-                        items.Remove(item);
-                        itemNumbers.Remove(itemNumbers[i]);
-                    }
+                    //ClickChangeColor
+                    slots[i].transform.GetComponent<Image>().sprite = imageClick;
+                    slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
+                    showCrop.SetActive(true);
+                    indexAmountItem = i;
+                    nameItem = item;
+                    checkClickItem = true;
+                }else{
+                         slots[i].transform.GetComponent<Image>().sprite = null;
+                    slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,0);
                 }
             }
         }else{
@@ -91,4 +106,18 @@ public class GameManager : MonoBehaviour
         }
          displayItems();  
     }
+
+    public void Crop (){
+            if(checkClickItem){
+                 itemNumbers[indexAmountItem]--;
+            if(itemNumbers[indexAmountItem] == 0){   
+                items.Remove(nameItem);
+                itemNumbers.Remove(itemNumbers[indexAmountItem]);
+                checkClickItem = false;
+                slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
+                slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
+            }
+            }
+      displayItems();
+    } 
 }
