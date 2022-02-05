@@ -797,18 +797,9 @@
             "id": "027e6225-2481-437e-8ef7-09973b3b8acb",
             "actions": [
                 {
-                    "name": "Havest",
+                    "name": "CropAndHavest",
                     "type": "Button",
                     "id": "d7930bf9-c43d-4cd6-91d8-9d2dafa93584",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Crop",
-                    "type": "Button",
-                    "id": "dffa59b5-7724-48cc-a20a-bd2f30924efd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -823,18 +814,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Havest",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5dac0d4d-fab0-4293-88d8-c87d1826a274",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Crop",
+                    "action": "CropAndHavest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

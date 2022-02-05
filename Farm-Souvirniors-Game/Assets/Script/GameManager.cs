@@ -11,14 +11,21 @@ public class GameManager : MonoBehaviour
     public List<Items> items = new List<Items>();
     //Amount items
     public List<int> itemNumbers = new List<int>();
+    //ช่องในกระเป๋า
     public GameObject[] slots ;
+    //โชวกรอบรูปเมื่อคลิกไอเทมในเป๋า
     public Sprite imageClick;
+    //โชวช่องปลูก
     public GameObject showCrop;
-
+    //จำนวนไอเทมที่เลือก
     int indexAmountItem;
-    Items nameItem;
+    //ไอเทมที่เลือก
+    Items chooseItem;
+    //เชคว่าคลิกไอเทมในเป่ายุไหม
+    public bool checkClickItem = false;
+    //object ในช่องปลูก
+    public GameObject[] itemsCrop;
 
-    bool checkClickItem = false;
 
 
     
@@ -37,13 +44,17 @@ public class GameManager : MonoBehaviour
 
 
    private void Start() {
+     
         displayItems();
     }
+
+   
 
     void displayItems(){
      
             for(int i=0 ; i<slots.Length; i++){
                 if(i < items.Count){
+             
                      //update slot image
             slots[i].transform.GetChild(1).GetComponent<Image>().color = new Color(1,1,1,1);
             slots[i].transform.GetChild(1).GetComponent<Image>().sprite = items[i].itemSprite;
@@ -70,6 +81,7 @@ public class GameManager : MonoBehaviour
     }
 
      public void addItem (Items item){
+         
          if(!items.Contains(item)){
              items.Add(item);
              itemNumbers.Add(1);
@@ -92,9 +104,9 @@ public class GameManager : MonoBehaviour
                     //ClickChangeColor
                     slots[i].transform.GetComponent<Image>().sprite = imageClick;
                     slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
-                    showCrop.SetActive(true);
+                    // showCrop.SetActive(true);
                     indexAmountItem = i;
-                    nameItem = item;
+                    chooseItem = item;
                     checkClickItem = true;
                 }else{
                          slots[i].transform.GetComponent<Image>().sprite = null;
@@ -107,15 +119,21 @@ public class GameManager : MonoBehaviour
          displayItems();  
     }
 
-    public void Crop (){
+    public void Crop (int checkAreaCrop){
             if(checkClickItem){
+            
+                itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                  itemNumbers[indexAmountItem]--;
+               
+                
             if(itemNumbers[indexAmountItem] == 0){   
-                items.Remove(nameItem);
+                items.Remove(chooseItem);
                 itemNumbers.Remove(itemNumbers[indexAmountItem]);
                 checkClickItem = false;
                 slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
                 slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
+                //
+             
             }
             }
       displayItems();
