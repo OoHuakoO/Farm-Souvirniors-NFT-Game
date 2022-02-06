@@ -16588,7 +16588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3882353, g: 0.36078432, b: 0.36078432, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -26004,7 +26004,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2960314299674780007, guid: 2e1eb598de4c8cc4990ecb2a25c55819, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.5769997
+      value: -1.5769958
       objectReference: {fileID: 0}
     - target: {fileID: 2960314299906259052, guid: 2e1eb598de4c8cc4990ecb2a25c55819, type: 3}
       propertyPath: m_Pivot.x
