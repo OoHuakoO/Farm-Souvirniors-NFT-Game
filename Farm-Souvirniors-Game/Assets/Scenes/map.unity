@@ -22666,6 +22666,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShowCrops
       objectReference: {fileID: 0}
+    - target: {fileID: 1536525886761251626, guid: a6a51777ff2603844a0ed9003a7f7481, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1536525886761251627, guid: a6a51777ff2603844a0ed9003a7f7481, type: 3}
       propertyPath: m_RootOrder
       value: 0
