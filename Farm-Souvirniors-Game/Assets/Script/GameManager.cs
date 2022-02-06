@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     //object ในช่องปลูก
     public GameObject[] itemsCrop;
 
-    public int getPositionAreaCrop ;
+
 
 
 
@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
     }
 
      public void addItem (Items item){
+         Debug.Log("Additem");
          //ถ้าไม่มีไอเทมชิ้นนี้อยู่ในกระเป็าให้เพิ่มไอเทมนี้เข้าไป แล้วให้จำนวนเป็น 1
          if(!items.Contains(item)){
              items.Add(item);
@@ -103,6 +104,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void useItem (Items item){
+             Debug.Log("UseItem");
       // ถ้่าไอเทมที่กดใช้ มีอยู่
         if(items.Contains(item)){
             for(int i=0 ; i < items.Count; i++){
@@ -112,7 +114,13 @@ public class GameManager : MonoBehaviour
                     slots[i].transform.GetComponent<Image>().sprite = imageClick;
                     slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
                     
-                    setCropColor();
+                     //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
+                    for(int y=0 ; y<itemsCrop.Length ;y++){
+                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                        }
+                    }
+    
                     // showCrop.SetActive(true);
 
                     // setเพื่อเก็บค่า item กดใช้ไปใช้ต่อในฟังชันอื่น
@@ -131,6 +139,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void Crop (int checkAreaCrop){
+             Debug.Log("Crop");
+             Debug.Log(checkAreaCrop);
+       
             if(checkClickItem){
             
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
@@ -144,28 +155,16 @@ public class GameManager : MonoBehaviour
                 checkClickItem = false;
                 slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
                 slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
-                setCropColorNull();
+                 //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
+                    for(int y=0 ; y<itemsCrop.Length ;y++){
+                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                        }
+                    }
              
             }
             }
       displayItems();
     } 
 
-    public void setCropColorNull (){
-        //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
-                    for(int y=0 ; y<itemsCrop.Length ;y++){
-                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0);
-                        }
-                    }
-    }
-
-    public void setCropColor (){
-        //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
-                    for(int y=0 ; y<itemsCrop.Length ;y++){
-                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
-                        }
-                    }
-    }
 }
