@@ -11,7 +11,7 @@ public class Action : MonoBehaviour
     public Items[] itemData ;
      private void OnTriggerEnter2D(Collider2D other) {
       if(other.tag == "Player"){
-        
+        // GameManager.instance.getPositionAreaCrop = checkAreaCrop;
           clash = true;
       }
    }
@@ -35,6 +35,10 @@ public class Action : MonoBehaviour
                             }
                         }
             GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+            //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
+            if(GameManager.instance.checkClickItem){
+                   GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.8f,0.3f,0.5f);
+            }
             
             
            }else{

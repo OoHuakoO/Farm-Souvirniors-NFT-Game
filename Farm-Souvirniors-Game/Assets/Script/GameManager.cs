@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     //object ในช่องปลูก
     public GameObject[] itemsCrop;
 
+    public int getPositionAreaCrop ;
+
 
 
     
@@ -47,6 +49,8 @@ public class GameManager : MonoBehaviour
      
         displayItems();
     }
+
+    
 
    
 
@@ -104,6 +108,8 @@ public class GameManager : MonoBehaviour
                     //ClickChangeColor
                     slots[i].transform.GetComponent<Image>().sprite = imageClick;
                     slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
+                    setCropColor();
+                        
                     // showCrop.SetActive(true);
                     indexAmountItem = i;
                     chooseItem = item;
@@ -123,6 +129,7 @@ public class GameManager : MonoBehaviour
             if(checkClickItem){
             
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
+                itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.8f,0.3f,0);
                  itemNumbers[indexAmountItem]--;
                
                 
@@ -132,10 +139,28 @@ public class GameManager : MonoBehaviour
                 checkClickItem = false;
                 slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
                 slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
-                //
+                setCropColorNull();
              
             }
             }
       displayItems();
     } 
+
+    public void setCropColorNull (){
+        //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
+                    for(int y=0 ; y<itemsCrop.Length ;y++){
+                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.8f,0.3f,0);
+                        }
+                    }
+    }
+
+    public void setCropColor (){
+        //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
+                    for(int y=0 ; y<itemsCrop.Length ;y++){
+                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.8f,0.3f,0.5f);
+                        }
+                    }
+    }
 }
