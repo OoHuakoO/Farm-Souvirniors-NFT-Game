@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour
     //object ในช่องปลูก
     public GameObject[] itemsCrop;
 
+    public GameObject[] itemCraft;
+    int ButtonIdOld;
+
 
 
 
@@ -166,5 +169,30 @@ public class GameManager : MonoBehaviour
             }
       displayItems();
     } 
+
+    public void chooseItemCraft (int buttonId){
+               for(int i=0 ; i<itemCraft.Length;i++){
+                   if( itemCraft[i] ==  itemCraft[buttonId]){
+                        itemCraft[i].transform.GetChild(2).GetComponent<Image>().color = new Color(0.7686275f,0.7686275f,0.7686275f,0);
+                        Debug.Log("GG1");
+                   }else{
+                       itemCraft[i].transform.GetChild(2).GetComponent<Image>().color = new Color(0.7686275f,0.7686275f,0.7686275f,0.6313726f);
+                        Debug.Log("GG2");
+                   }
+               }
+               
+        
+            
+        
+           
+        
+        
+        
+        
+   
+
+    }
+
+    
 
 }
