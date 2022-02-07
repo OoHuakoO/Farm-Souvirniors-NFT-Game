@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Corn
   itemSprite: {fileID: 21300000, guid: cd5a9705c02274f438efa5dbb6143e0c, type: 3}
+  textName: Corn
+  textReward: 'Reward: 20 fruit'
+  textChargeTime: 'Charge Time: 60 min'
+  textEnergy: 'Energy Consumed: 10 meat'
+  textWood: 10000
+  textfruit: 5000

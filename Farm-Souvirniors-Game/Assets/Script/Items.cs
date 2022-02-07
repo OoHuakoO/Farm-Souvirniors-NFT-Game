@@ -8,10 +8,10 @@ public class Items : ScriptableObject
 {
    public string itemName;
    public Sprite itemSprite;
-   [SerializeField] string textName;
-   [SerializeField] string textReward;
-   [SerializeField] string textChargeTime;
-   [SerializeField] string textEnergy;
-   [SerializeField] string textWood;
-   [SerializeField] string textfruit;
+   public string textName;
+   public string textReward;
+   public string textChargeTime;
+   public string textEnergy;
+   public string textWood;
+   public string textfruit;
 }

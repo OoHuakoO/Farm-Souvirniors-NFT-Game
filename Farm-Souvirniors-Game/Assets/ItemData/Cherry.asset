@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cherry
   itemSprite: {fileID: 21300000, guid: 24402193864704413b92e602d05be68b, type: 3}
+  textName: Cherry
+  textReward: 'Reward: 50  fruit'
+  textChargeTime: 'Charge Time: 60 min'
+  textEnergy: 'Energy Consumed: 12 meat'
+  textWood: 5000
+  textfruit: 1000

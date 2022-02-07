@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Pumkin
   itemSprite: {fileID: 21300000, guid: faeadd4ac1af74103806f652ba6fb592, type: 3}
+  textName: Pumkin
+  textReward: 'Reward: 100 fruit'
+  textChargeTime: 'Charge Time: 60 min'
+  textEnergy: 'Energy Consumed: 20 meat'
+  textWood: 15000
+  textfruit: 5000

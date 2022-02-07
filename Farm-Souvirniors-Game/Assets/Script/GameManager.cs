@@ -27,7 +27,11 @@ public class GameManager : MonoBehaviour
     public GameObject[] itemsCrop;
 
     public GameObject[] itemCraft;
-    int ButtonIdOld;
+    
+    public GameObject detailCraft;
+    public List<Items> itemsDetailCraft = new List<Items>();
+
+    public GameObject imageItemShowCraft ;
 
 
 
@@ -172,14 +176,23 @@ public class GameManager : MonoBehaviour
 
     public void chooseItemCraft (int buttonId){
                for(int i=0 ; i<itemCraft.Length;i++){
-                   if( itemCraft[i] ==  itemCraft[buttonId]){
+                   if( itemCraft[i] == itemCraft[buttonId]){
                         itemCraft[i].transform.GetChild(2).GetComponent<Image>().color = new Color(0.7686275f,0.7686275f,0.7686275f,0);
-                        Debug.Log("GG1");
+
                    }else{
                        itemCraft[i].transform.GetChild(2).GetComponent<Image>().color = new Color(0.7686275f,0.7686275f,0.7686275f,0.6313726f);
-                        Debug.Log("GG2");
+                      
                    }
                }
+               detailCraft.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
+               detailCraft.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textReward;
+               detailCraft.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textChargeTime;
+               detailCraft.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textEnergy;
+               detailCraft.transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textWood;
+                detailCraft.transform.GetChild(4).GetChild(4).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textfruit;
+                imageItemShowCraft.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemsDetailCraft[buttonId].itemSprite;
+                  imageItemShowCraft.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
+
                
         
             

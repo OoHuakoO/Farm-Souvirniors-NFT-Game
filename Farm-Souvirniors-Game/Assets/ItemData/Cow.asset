@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cow
   itemSprite: {fileID: 21300000, guid: d8e60cb09b98c45609e0f6516e896299, type: 3}
-  textName: 
-  textReward: 
-  textChargeTime: 
-  textEnergy: 
-  textWood: 
-  textfruit: 
+  textName: Cow
+  textReward: 'Reward: 70 meat'
+  textChargeTime: 'Charge Time: 60 min'
+  textEnergy: 'Energy Consumed: 10 meat'
+  textWood: 20000
+  textfruit: 7000
