@@ -193,17 +193,6 @@ public class GameManager : MonoBehaviour
                 imageItemShowCraft.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemsDetailCraft[buttonId].itemSprite;
                   imageItemShowCraft.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
 
-               
-        
-            
-        
-           
-        
-        
-        
-        
-   
-
     }
 
     

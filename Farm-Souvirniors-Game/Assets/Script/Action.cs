@@ -56,8 +56,10 @@ public class Action : MonoBehaviour
             GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
                  //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
             if(GameManager.instance.checkClickItem){
+                Debug.Log("Havest1");
                    GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
             }
+            Debug.Log("Havest2");
                         for(int i=0 ; i<itemData.Length;i++){
                             if(getSprite == itemData[i].itemSprite){
                                   GameManager.instance.addItem(itemData[i]);
