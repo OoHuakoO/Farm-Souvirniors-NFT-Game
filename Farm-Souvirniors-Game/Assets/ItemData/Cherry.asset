@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869fe32f9d23edf4084463a710ab8711, type: 3}
   m_Name: Cherry
   m_EditorClassIdentifier: 
-  itemName: Cherry
+  itemName: cherry
   itemSprite: {fileID: 21300000, guid: 24402193864704413b92e602d05be68b, type: 3}
   textName: Cherry
   textReward: 'Reward: 50  fruit'

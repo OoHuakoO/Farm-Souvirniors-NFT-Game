@@ -12,6 +12,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
    public static GameManager instance;
+   public Items[] AllItem ;
     // type items
     public List<Items> items = new List<Items>();
     //Amount items
@@ -58,28 +59,66 @@ public class GameManager : MonoBehaviour
 
 
    private void Start() {
-       string url = "http://localhost:8000/in-game/get-owner-nft/0x1B7AAdF746c0B06CE987143C3770602e8894FD88";
+       string url = "https://farm-souvirnior-project.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
         StartCoroutine(HttpGet(url));
-        displayItems();
+        
     }
 
   
+        //getItemNFT
       public IEnumerator HttpGet(string url)
         {
             using(UnityWebRequest webRequest = UnityWebRequest.Get(url))
             {
                 yield return webRequest.SendWebRequest();
                 var response = webRequest.downloadHandler.text ;
-
-                var result = JsonConvert.DeserializeObject<Data>(response);
-
-                Debug.Log(result.status);
-         
-                
+            
+                JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
+                    // int y = 0  ;
+                        for(int i=0;i<result.data.Length;i++){
+                            for(int y=0;y<AllItem.Length;y++){
+                                   if(result.data[i].name == AllItem[y].itemName){
+                                        if(!items.Contains(AllItem[y])){
+                                            items.Add(AllItem[y]);
+                                             itemNumbers.Add(1);
+                                             
+                                            }else{
+                                                for(int m=0;m<items.Count;m++){
+                                                    if(items[m] == AllItem[y]){
+                                                    itemNumbers[m]++;
+                                                    }
+                                                }
+                                            }
+                                     
+                                    
+                                }
+                            }
+                             
+                            
+                        }
+                   
                
             }
+             displayItems();
         }
 
+        //PostCropNFT
+           public IEnumerator HttpPost(string url, string address , string itemId)
+        {
+            var dataObject = new myClass();
+            dataObject.address_wallet = address;
+            dataObject.nft_id = itemId;
+            string json = JsonUtility.ToJson(dataObject);
+            Debug.Log(json);
+           using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
+            {
+               
+                webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
+                  webRequest.SetRequestHeader("Content-Type", "application/json");
+                yield return webRequest.SendWebRequest();
+
+            }
+        }
     
 
    
@@ -169,6 +208,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void Crop (int checkAreaCrop){
+            string urlCropNFT = "https://farm-souvirnior-project.herokuapp.com/in-game/plant-nft";
+
+            
+           
              Debug.Log("Crop");
              Debug.Log(checkAreaCrop);
        
@@ -177,7 +220,7 @@ public class GameManager : MonoBehaviour
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                  itemNumbers[indexAmountItem]--;
-               
+                StartCoroutine(HttpPost(urlCropNFT,"0x629812063124cE2448703B889D754b232B3622BA","1645949068177"));
                 
             if(itemNumbers[indexAmountItem] == 0){   
                 items.Remove(chooseItem);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869fe32f9d23edf4084463a710ab8711, type: 3}
   m_Name: Bird
   m_EditorClassIdentifier: 
-  itemName: Bird
+  itemName: bird
   itemSprite: {fileID: 21300000, guid: 9915b2a602e0740acb243c75ab2a84a3, type: 3}
   textName: Bird
   textReward: 'Reward: 10 meat'

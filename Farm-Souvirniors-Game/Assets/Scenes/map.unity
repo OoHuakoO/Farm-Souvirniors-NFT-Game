@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b410b9bb0be801d49a83b71af662a0e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
+  AllItem:
   - {fileID: 11400000, guid: d62614ba939f5a940a5b011b3c8111de, type: 2}
   - {fileID: 11400000, guid: 36bf7fffe49f5694a8885bcd81d3b2d3, type: 2}
   - {fileID: 11400000, guid: e5ec1c836c9d6b049b89e72b187853dc, type: 2}
@@ -334,7 +334,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b79dd26c9853a7449973edf54ca0cde5, type: 2}
   - {fileID: 11400000, guid: 428afc37517221c4297f40492a35f5b4, type: 2}
   - {fileID: 11400000, guid: b363d7d3854d3c743b5b0284b841ba7b, type: 2}
-  itemNumbers: 010000000200000003000000050000000400000003000000040000000200000005000000
+  items: []
+  itemNumbers: 
   slots:
   - {fileID: 1183388475}
   - {fileID: 1260537333}
