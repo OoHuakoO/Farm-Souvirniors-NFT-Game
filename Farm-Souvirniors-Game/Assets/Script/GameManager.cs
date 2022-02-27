@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using TMPro;
+
+
 
 public class GameManager : MonoBehaviour
 {
@@ -53,11 +58,29 @@ public class GameManager : MonoBehaviour
 
 
    private void Start() {
-     
+       string url = "http://localhost:8000/in-game/get-owner-nft/0x1B7AAdF746c0B06CE987143C3770602e8894FD88";
+        StartCoroutine(HttpGet(url));
         displayItems();
     }
 
+  
+      public IEnumerator HttpGet(string url)
+        {
+            using(UnityWebRequest webRequest = UnityWebRequest.Get(url))
+            {
+                yield return webRequest.SendWebRequest();
+                var response = webRequest.downloadHandler.text ;
 
+                var result = JsonConvert.DeserializeObject<Data>(response);
+
+                Debug.Log(result.status);
+         
+                
+               
+            }
+        }
+
+    
 
    
 
