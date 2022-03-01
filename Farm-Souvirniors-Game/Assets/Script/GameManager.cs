@@ -51,11 +51,19 @@ public class GameManager : MonoBehaviour
     public bool actionFinish ;
 
     public int numberLand ;
+
          string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
     string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
     string itemID = "1645949068177";
-    public TextMesh textTime;
+    // public TextMesh textTime;
+    // public TextMesh textTime2;
+    // public TextMesh textTime3;
+    // public TextMesh textTime4;
+    // public TextMesh textTime5;
+    // public TextMesh textTime6;
+
+    public TextMesh[] textTime;
 
     List<Data> dataTest = new List<Data>();
              
@@ -97,9 +105,9 @@ public class GameManager : MonoBehaviour
 
          
         if(actionFinish){
-                timeStart -= Time.deltaTime;
+                 textTime[numberLand].transform.GetComponent<TimeCount>().startTime -= Time.deltaTime;
                 if(timeStart <= 0){
-                    textTime.text = 0.ToString();
+                    textTime[numberLand].text = 0.ToString();
                     actionFinish = false;
                     if(statusAction == "เก็บผักผลไม้"){
                          showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
@@ -112,7 +120,7 @@ public class GameManager : MonoBehaviour
                     }
                    
                 }else{  
-                    textTime.text = Mathf.Round(timeStart).ToString();
+                    textTime[numberLand].text = Mathf.Round(timeStart).ToString();
                 }
                 Debug.Log(timeStart);
                 }
@@ -244,7 +252,7 @@ public class GameManager : MonoBehaviour
      public void addItem (Items item ,int checkAreaCrop){
 
         showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-        textTime.gameObject.SetActive(false);
+        textTime[checkAreaCrop].gameObject.SetActive(false);
 
          Debug.Log("Additem");
          //ถ้าไม่มีไอเทมชิ้นนี้อยู่ในกระเป็าให้เพิ่มไอเทมนี้เข้าไป แล้วให้จำนวนเป็น 1
@@ -302,7 +310,7 @@ public class GameManager : MonoBehaviour
     public void Crop (int checkAreaCrop){
             
             if(checkClickItem){
-                 textTime.gameObject.SetActive(true);
+                 textTime[checkAreaCrop].gameObject.SetActive(true);
                 actionFinish = true;
                 numberLand = checkAreaCrop;
                 if(chooseItem.status == "animal"){
