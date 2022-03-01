@@ -20,3 +20,4 @@ MonoBehaviour:
   textEnergy: 'Energy Consumed: 5 meat'
   textWood: 1000
   textfruit: 7000
+  status: fruit

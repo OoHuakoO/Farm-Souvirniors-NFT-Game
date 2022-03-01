@@ -11,28 +11,41 @@ using UnityEngine;
 
  public class JsonClass
  {
-        public Data[] data;
-         public string status;
+        public Data[] data {get ; set;}
+         public string status {get ; set;}
      
  }
 
  public class Data
  {  
+         public string address_wallet {get ; set;}
+        public string nft_id {get ; set;}
+        public string name {get ; set;}
         
-        public string nft_id;
-        public string name;
+        public string picture {get ; set;}
         
-        public string picture;
+        public string type {get ; set;}
         
-        public string type;
+        public string status {get ; set;}
         
-        public string status;
+        public string cooldownFeedTime {get ; set;}
+
+        public string cooldownHarvestTime {get ; set;}
         
-     
+       
  }
 
 public class myClass
 {
-  public string address_wallet;
-  public string nft_id;
+  public string address_wallet {get ; set;}
+  public string nft_id {get ; set;}
 }
+
+
+// public class OJO
+// {
+//       public string address_wallett {get ; set;}
+//        public string nft_idt {get ; set;}
+//   public float timeStart {get ; set;}
+ 
+// }

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 869fe32f9d23edf4084463a710ab8711, type: 3}
-  m_Name: Cherry
+  m_Name: Apple
   m_EditorClassIdentifier: 
-  itemName: cherry
-  itemSprite: {fileID: 21300000, guid: 24402193864704413b92e602d05be68b, type: 3}
-  textName: Cherry
+  itemName: apple
+  itemSprite: {fileID: 21300000, guid: 4cc6ca8fc6f26418ba0a514772f6eb06, type: 3}
+  textName: Apple
   textReward: 'Reward: 50  fruit'
   textChargeTime: 'Charge Time: 60 min'
   textEnergy: 'Energy Consumed: 12 meat'
   textWood: 5000
   textfruit: 1000
+  status: fruit

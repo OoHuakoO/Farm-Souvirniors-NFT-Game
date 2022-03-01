@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +24,9 @@ public class GameManager : MonoBehaviour
     //โชวกรอบรูปเมื่อคลิกไอเทมในเป๋า
     public Sprite imageClick;
     //โชวช่องปลูก
-    public GameObject showCrop;
+    public GameObject[] showCrop;
+
+    
     //จำนวนไอเทมที่เลือก
     int indexAmountItem;
     //ไอเทมที่เลือก
@@ -39,8 +43,23 @@ public class GameManager : MonoBehaviour
 
     public GameObject imageItemShowCraft ;
 
+    public ItemShowAction[] itemAction ;
 
+    private string statusAction ;
 
+    public float timeStart = 2.0f;
+    public bool actionFinish ;
+
+    public int numberLand ;
+         string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
+    string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
+    string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
+    string itemID = "1645949068177";
+    public TextMesh textTime;
+
+    List<Data> dataTest = new List<Data>();
+             
+    
 
 
     
@@ -59,29 +78,78 @@ public class GameManager : MonoBehaviour
 
 
    private void Start() {
-       string url = "https://farm-souvirnior-project.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
-        StartCoroutine(HttpGet(url));
+  
+        // StartCoroutine(HttpGet(urlGetNFT));
+        // textTime.text = listItem.timeStart.ToString();
+
         
     }
+
+    private void Update(){
+        
+     
+        // foreach(var testing in dataTest){
+        //       Debug.Log(testing.address_wallet);
+        //         Debug.Log(testing.nft_id);
+        //            Debug.Log(testing.cooldownFeedTime);
+        //         Debug.Log(testing.cooldownHarvestTime);
+        // }
+
+         
+        if(actionFinish){
+                timeStart -= Time.deltaTime;
+                if(timeStart <= 0){
+                    textTime.text = 0.ToString();
+                    actionFinish = false;
+                    if(statusAction == "เก็บผักผลไม้"){
+                         showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                    }else if(statusAction == "เก็บเนื้อ"){
+                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+                    }else if(statusAction == "รดน้ำ"){
+                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+                    }else if(statusAction == "ให้อาหาร"){
+                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+                    }
+                   
+                }else{  
+                    textTime.text = Mathf.Round(timeStart).ToString();
+                }
+                Debug.Log(timeStart);
+                }
+      
+      
+    }
+
+   
 
   
         //getItemNFT
       public IEnumerator HttpGet(string url)
         {
+      
             using(UnityWebRequest webRequest = UnityWebRequest.Get(url))
             {
                 yield return webRequest.SendWebRequest();
                 var response = webRequest.downloadHandler.text ;
             
                 JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
-                    // int y = 0  ;
+                     
                         for(int i=0;i<result.data.Length;i++){
                             for(int y=0;y<AllItem.Length;y++){
                                    if(result.data[i].name == AllItem[y].itemName){
                                         if(!items.Contains(AllItem[y])){
                                             items.Add(AllItem[y]);
                                              itemNumbers.Add(1);
-                                             
+                                                      dataTest.Add(new Data{
+                                                        address_wallet = addressWallet,
+                                                        nft_id = result.data[i].nft_id,
+                                                        name = result.data[i].name,
+                                                        type = result.data[i].type,
+                                                        status = result.data[i].status,
+                                                        cooldownFeedTime = result.data[i].cooldownFeedTime,
+                                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime
+                                                      }) ; 
+                                               
                                             }else{
                                                 for(int m=0;m<items.Count;m++){
                                                     if(items[m] == AllItem[y]){
@@ -103,12 +171,32 @@ public class GameManager : MonoBehaviour
         }
 
         //PostCropNFT
-           public IEnumerator HttpPost(string url, string address , string itemId)
+        
+           public IEnumerator HttpCropPost(string url, string address , string itemId)
         {
-            var dataObject = new myClass();
-            dataObject.address_wallet = address;
-            dataObject.nft_id = itemId;
-            string json = JsonUtility.ToJson(dataObject);
+            var dataCrop = new myClass();
+            dataCrop.address_wallet = address;
+            dataCrop.nft_id = itemId;
+            string json = JsonUtility.ToJson(dataCrop);
+            Debug.Log(json);
+           using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
+            {
+               
+                webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
+                  webRequest.SetRequestHeader("Content-Type", "application/json");
+                yield return webRequest.SendWebRequest();
+
+            }
+        }
+
+         //PostHavestNFT
+
+         public IEnumerator HttpHavestPost(string url, string address , string itemId)
+        {
+            var dataHavest = new myClass();
+            dataHavest.address_wallet = address;
+            dataHavest.nft_id = itemId;
+            string json = JsonUtility.ToJson(dataHavest);
             Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
             {
@@ -153,7 +241,11 @@ public class GameManager : MonoBehaviour
         
     }
 
-     public void addItem (Items item){
+     public void addItem (Items item ,int checkAreaCrop){
+
+        showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+        textTime.gameObject.SetActive(false);
+
          Debug.Log("Additem");
          //ถ้าไม่มีไอเทมชิ้นนี้อยู่ในกระเป็าให้เพิ่มไอเทมนี้เข้าไป แล้วให้จำนวนเป็น 1
          if(!items.Contains(item)){
@@ -208,19 +300,22 @@ public class GameManager : MonoBehaviour
     }
 
     public void Crop (int checkAreaCrop){
-            string urlCropNFT = "https://farm-souvirnior-project.herokuapp.com/in-game/plant-nft";
-
             
-           
-             Debug.Log("Crop");
-             Debug.Log(checkAreaCrop);
-       
             if(checkClickItem){
-            
+                 textTime.gameObject.SetActive(true);
+                actionFinish = true;
+                numberLand = checkAreaCrop;
+                if(chooseItem.status == "animal"){
+                    statusAction = "ให้อาหาร";
+                }else if(chooseItem.status == "fruit"){
+                    statusAction = "รดน้ำ";
+                }
+        
+                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID));
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                  itemNumbers[indexAmountItem]--;
-                StartCoroutine(HttpPost(urlCropNFT,"0x629812063124cE2448703B889D754b232B3622BA","1645949068177"));
+            
                 
             if(itemNumbers[indexAmountItem] == 0){   
                 items.Remove(chooseItem);
@@ -250,11 +345,11 @@ public class GameManager : MonoBehaviour
                       
                    }
                }
-               detailCraft.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
-               detailCraft.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textReward;
-               detailCraft.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textChargeTime;
-               detailCraft.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textEnergy;
-               detailCraft.transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textWood;
+                detailCraft.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
+                detailCraft.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textReward;
+                detailCraft.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textChargeTime;
+                detailCraft.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textEnergy;
+                detailCraft.transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textWood;
                 detailCraft.transform.GetChild(4).GetChild(4).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textfruit;
                 imageItemShowCraft.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = itemsDetailCraft[buttonId].itemSprite;
                   imageItemShowCraft.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = itemsDetailCraft[buttonId].textName;
