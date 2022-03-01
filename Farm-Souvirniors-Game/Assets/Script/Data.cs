@@ -39,6 +39,8 @@ public class myClass
 {
   public string address_wallet {get ; set;}
   public string nft_id {get ; set;}
+  
+  public int checkAreaCrop {get ; set ;}
 }
 
 

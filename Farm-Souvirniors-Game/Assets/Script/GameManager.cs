@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
-
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -47,26 +47,22 @@ public class GameManager : MonoBehaviour
 
     private string statusAction ;
 
-    public float timeStart = 2.0f;
+    float[]timeStart = {60.0f,60.0f,60.0f,60.0f,60.0f,60.0f,60.0f,60.0f,60.0f,60.0f};
     public bool actionFinish ;
 
     public int numberLand ;
+
 
          string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
     string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
     string itemID = "1645949068177";
-    // public TextMesh textTime;
-    // public TextMesh textTime2;
-    // public TextMesh textTime3;
-    // public TextMesh textTime4;
-    // public TextMesh textTime5;
-    // public TextMesh textTime6;
-
+  
     public TextMesh[] textTime;
 
     List<Data> dataTest = new List<Data>();
-             
+
+   
     
 
 
@@ -86,44 +82,41 @@ public class GameManager : MonoBehaviour
 
 
    private void Start() {
-  
-        // StartCoroutine(HttpGet(urlGetNFT));
-        // textTime.text = listItem.timeStart.ToString();
+
+        StartCoroutine(HttpGet(urlGetNFT));
+      
+    
+     
 
         
     }
 
     private void Update(){
         
-     
-        // foreach(var testing in dataTest){
-        //       Debug.Log(testing.address_wallet);
-        //         Debug.Log(testing.nft_id);
-        //            Debug.Log(testing.cooldownFeedTime);
-        //         Debug.Log(testing.cooldownHarvestTime);
-        // }
-
+ 
          
-        if(actionFinish){
-                 textTime[numberLand].transform.GetComponent<TimeCount>().startTime -= Time.deltaTime;
-                if(timeStart <= 0){
-                    textTime[numberLand].text = 0.ToString();
-                    actionFinish = false;
-                    if(statusAction == "เก็บผักผลไม้"){
-                         showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
-                    }else if(statusAction == "เก็บเนื้อ"){
-                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
-                    }else if(statusAction == "รดน้ำ"){
-                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
-                    }else if(statusAction == "ให้อาหาร"){
-                        showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
-                    }
+        // if(actionFinish){
+               
+        //          timeStart[numberLand] -= Time.deltaTime;
+        //          Debug.Log(timeStart[numberLand]);
+        //         if(timeStart[numberLand] <= 0){
+        //             textTime[numberLand].text = 0.ToString();
+        //             actionFinish = false;
+        //             if(statusAction == "เก็บผักผลไม้"){
+        //                  showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+        //             }else if(statusAction == "เก็บเนื้อ"){
+        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+        //             }else if(statusAction == "รดน้ำ"){
+        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+        //             }else if(statusAction == "ให้อาหาร"){
+        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+        //             }
                    
-                }else{  
-                    textTime[numberLand].text = Mathf.Round(timeStart).ToString();
-                }
-                Debug.Log(timeStart);
-                }
+        //         }else{  
+        //             textTime[numberLand].text = Mathf.Round(timeStart[numberLand]).ToString();
+        //         }
+            
+        // }
       
       
     }
@@ -143,21 +136,23 @@ public class GameManager : MonoBehaviour
                 JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
                      
                         for(int i=0;i<result.data.Length;i++){
+                                    dataTest.Add(new Data{
+                                       address_wallet = addressWallet,
+                                       nft_id = result.data[i].nft_id,
+                                       name = result.data[i].name,
+                                       type = result.data[i].type,
+                                       status = result.data[i].status,
+                                       cooldownFeedTime = result.data[i].cooldownFeedTime ,
+                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime
+                                    }) ; 
+                            
                             for(int y=0;y<AllItem.Length;y++){
                                    if(result.data[i].name == AllItem[y].itemName){
-                                        if(!items.Contains(AllItem[y])){
+                                       if(result.data[i].status == "not_plant"){
+                                            if(!items.Contains(AllItem[y])){
                                             items.Add(AllItem[y]);
                                              itemNumbers.Add(1);
-                                                      dataTest.Add(new Data{
-                                                        address_wallet = addressWallet,
-                                                        nft_id = result.data[i].nft_id,
-                                                        name = result.data[i].name,
-                                                        type = result.data[i].type,
-                                                        status = result.data[i].status,
-                                                        cooldownFeedTime = result.data[i].cooldownFeedTime,
-                                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime
-                                                      }) ; 
-                                               
+ 
                                             }else{
                                                 for(int m=0;m<items.Count;m++){
                                                     if(items[m] == AllItem[y]){
@@ -165,14 +160,37 @@ public class GameManager : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                     
-                                    
+                                       }else if(result.data[i].status == "wait_feed" ){
+                                        //    if(result.data[i].cooldownFeedTime != "00.00"){
+                                        //          textTime[i].text = result.data[i].cooldownFeedTime;
+                                        //    }else{
+                                                 if(result.data[i].type == "vegetable"){
+                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                                showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+                                                }else if(result.data[i].type == "animal"){
+                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                                showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+                                                }
+                                           
+                                        //    }
+                                          
+                                       }else if(result.data[i].status == "wait_harvest" ){
+                                           if(result.data[i].type == "vegetable"){
+                                               itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                            showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                                           }else if(result.data[i].type == "animal"){
+                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                            showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+                                           }
+                                            
+                                       }
+    
                                 }
                             }
                              
                             
                         }
-                   
+                            
                
             }
              displayItems();
@@ -180,13 +198,14 @@ public class GameManager : MonoBehaviour
 
         //PostCropNFT
         
-           public IEnumerator HttpCropPost(string url, string address , string itemId)
+           public IEnumerator HttpCropPost(string url, string address , string itemId , int checkAreaCrop)
         {
             var dataCrop = new myClass();
             dataCrop.address_wallet = address;
             dataCrop.nft_id = itemId;
+            // dataCrop.checkAreaCrop = checkAreaCrop;
             string json = JsonUtility.ToJson(dataCrop);
-            Debug.Log(json);
+           
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
             {
                
@@ -290,7 +309,6 @@ public class GameManager : MonoBehaviour
                         }
                     }
     
-                    // showCrop.SetActive(true);
 
                     // setเพื่อเก็บค่า item กดใช้ไปใช้ต่อในฟังชันอื่น
                     indexAmountItem = i;
@@ -313,13 +331,15 @@ public class GameManager : MonoBehaviour
                  textTime[checkAreaCrop].gameObject.SetActive(true);
                 actionFinish = true;
                 numberLand = checkAreaCrop;
+               
                 if(chooseItem.status == "animal"){
                     statusAction = "ให้อาหาร";
                 }else if(chooseItem.status == "fruit"){
                     statusAction = "รดน้ำ";
                 }
         
-                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID));
+                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
+                
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                  itemNumbers[indexAmountItem]--;

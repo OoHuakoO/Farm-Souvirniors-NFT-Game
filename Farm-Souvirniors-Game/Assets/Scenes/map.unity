@@ -520,7 +520,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e891ab43c9c62ec43b0c700ec4d97ca1, type: 2}
   - {fileID: 11400000, guid: 32d35d397efb40a4db422ad8ef332401, type: 2}
   - {fileID: 11400000, guid: a8f1a8fd6abbe6b4a8a87d6bff89bdbb, type: 2}
-  timeStart: 2
   actionFinish: 0
   numberLand: 0
   textTime:
