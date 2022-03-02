@@ -52,15 +52,13 @@ public class GameManager : MonoBehaviour
 
     public int numberLand ;
 
+    
+    string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
 
-         string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
-    string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
-    string itemID = "1645949068177";
-  
     public TextMesh[] textTime;
 
-    List<Data> dataTest = new List<Data>();
+    public List<Data> dataTest = new List<Data>();
 
    
     
@@ -143,7 +141,8 @@ public class GameManager : MonoBehaviour
                                        type = result.data[i].type,
                                        status = result.data[i].status,
                                        cooldownFeedTime = result.data[i].cooldownFeedTime ,
-                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime
+                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime,
+                                        position_plant = result.data[i].position_plant
                                     }) ; 
                             
                             for(int y=0;y<AllItem.Length;y++){
@@ -160,27 +159,28 @@ public class GameManager : MonoBehaviour
                                                     }
                                                 }
                                             }
-                                       }else if(result.data[i].status == "wait_feed" ){
+                                       }
+                                       else if(result.data[i].status == "wait_feed" ){
                                         //    if(result.data[i].cooldownFeedTime != "00.00"){
                                         //          textTime[i].text = result.data[i].cooldownFeedTime;
                                         //    }else{
                                                  if(result.data[i].type == "vegetable"){
-                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                                showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                                showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
                                                 }else if(result.data[i].type == "animal"){
-                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                                showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                                showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
                                                 }
                                            
                                         //    }
                                           
                                        }else if(result.data[i].status == "wait_harvest" ){
                                            if(result.data[i].type == "vegetable"){
-                                               itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                            showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                                               itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                            showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
                                            }else if(result.data[i].type == "animal"){
-                                                itemsCrop[i].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                            showCrop[i].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                            showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
                                            }
                                             
                                        }
@@ -200,29 +200,31 @@ public class GameManager : MonoBehaviour
         
            public IEnumerator HttpCropPost(string url, string address , string itemId , int checkAreaCrop)
         {
+            Debug.Log(address);
             var dataCrop = new myClass();
             dataCrop.address_wallet = address;
             dataCrop.nft_id = itemId;
-            // dataCrop.checkAreaCrop = checkAreaCrop;
-            string json = JsonUtility.ToJson(dataCrop);
+            dataCrop.position_plant = checkAreaCrop;
            
-           using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
-            {
-               
+            string json = JsonUtility.ToJson(dataCrop);
+            Debug.Log( json);
+            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
+               {
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
-
-            }
+               }
+            
         }
 
          //PostHavestNFT
 
-         public IEnumerator HttpHavestPost(string url, string address , string itemId)
+         public IEnumerator HttpHavestPost(string url, string address , string itemId,int checkAreaCrop)
         {
             var dataHavest = new myClass();
             dataHavest.address_wallet = address;
             dataHavest.nft_id = itemId;
+            dataHavest.position_plant = checkAreaCrop;
             string json = JsonUtility.ToJson(dataHavest);
             Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
@@ -325,7 +327,7 @@ public class GameManager : MonoBehaviour
          displayItems();  
     }
 
-    public void Crop (int checkAreaCrop){
+    public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop ){
             
             if(checkClickItem){
                  textTime[checkAreaCrop].gameObject.SetActive(true);

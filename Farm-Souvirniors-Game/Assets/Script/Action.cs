@@ -10,9 +10,11 @@ public class Action : MonoBehaviour
     [SerializeField] int checkAreaCrop ;
     public Items[] itemData ;
 
+    
+    string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string urlHavestNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/harvest-nft";
     string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
-    string itemID = "1645949068177";
+    string itemID = "1645168176437";
      private void OnTriggerEnter2D(Collider2D other) {
       if(other.tag == "Player"){
 
@@ -43,39 +45,50 @@ public class Action : MonoBehaviour
           
         //ถ้าชน
          if(clash){
-               Debug.Log("OnCropAndHavest");
-            //เชคเพื่อการปลูก โดยเช็คว่าพื้นตรงนั้นปลูกไปหรือยัง ถ้ายังให้ปลูกได้
-            if(GameManager.instance.checkClickItem &&  GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null){
-                Debug.Log("checkCrop");
-                clash = false;
-                GameManager.instance.Crop(checkAreaCrop);
-            }
-            //เช็คเพื่อเก็บเกี่ยว ถ้าปลูกไปแล้ว ถ้าไอเทมยังน้อยกว่าช่องในกระเป๋าให้เก็บไอเทมเข้ากระเป๋าได้
-              else if(GameManager.instance.items.Count < GameManager.instance.slots.Length ){ 
-                clash = false;
-                Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
-                if(getSprite != null){
-                     StartCoroutine(GameManager.instance.HttpHavestPost(urlHavestNFT,addressWallet,itemID));
-                    
 
-                }
-            //ทำให้รูปหาย ไม่ได้ลบแต่เปลี่ยนเปนว่างแทน
-            GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                 //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
-            if(GameManager.instance.checkClickItem){
+                    Debug.Log("OnCropAndHavest");
+                    //เชคเพื่อการปลูก โดยเช็คว่าพื้นตรงนั้นปลูกไปหรือยัง ถ้ายังให้ปลูกได้
+                    if((GameManager.instance.checkClickItem &&  GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null)){
+                        Debug.Log("checkCrop");
+                        clash = false;
+                        GameManager.instance.Crop(urlCropNFT,addressWallet,itemID,checkAreaCrop);
+                    }
+            for(int k=0;k<GameManager.instance.dataTest.Count;k++){ 
+                //ถ้าตำแหน่งที่ปลูกที่ดึงมาจาก api ตรงกับช่องที่ปลูกที่ยืนอยู่
+                if(GameManager.instance.dataTest[k].position_plant == checkAreaCrop){
+                       
+                    if((GameManager.instance.items.Count < GameManager.instance.slots.Length) && GameManager.instance.dataTest[k].status == "wait_harvest"){
+                        
+                        Debug.Log("checkHavest");
+                        clash = false;
+                        Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                        if(getSprite != null){
+                        StartCoroutine(GameManager.instance.HttpHavestPost(urlHavestNFT,addressWallet,itemID,checkAreaCrop));
+                    }
+                    //ทำให้รูปหาย ไม่ได้ลบแต่เปลี่ยนเปนว่างแทน
+                    GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                    //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
+                    if(GameManager.instance.checkClickItem){
+                       GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                    }
+                    for(int i=0 ; i<itemData.Length;i++){
+                        if(getSprite == itemData[i].itemSprite){
+                            GameManager.instance.addItem(itemData[i] , checkAreaCrop);
+                        }
+                    }
             
-                GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                    }
+                
+                
+                }
+                      
             }
             
-                for(int i=0 ; i<itemData.Length;i++){
-                    if(getSprite == itemData[i].itemSprite){
-                        GameManager.instance.addItem(itemData[i] , checkAreaCrop);
-                    }
-                }
+           
             
-           }
+            //    else if(GameManager.instance.showCrop[checkAreaCrop] == "")
           
-         }
+        }
       
       }
 }
