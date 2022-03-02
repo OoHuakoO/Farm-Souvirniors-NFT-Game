@@ -14,7 +14,9 @@ public class Action : MonoBehaviour
     string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string urlHavestNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/harvest-nft";
     string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
-    string itemID = "1645168176437";
+    string itemID ;
+
+    bool selectNftUsed = true;
      private void OnTriggerEnter2D(Collider2D other) {
       if(other.tag == "Player"){
 
@@ -51,6 +53,14 @@ public class Action : MonoBehaviour
                     if((GameManager.instance.checkClickItem &&  GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null)){
                         Debug.Log("checkCrop");
                         clash = false;
+                        for(int i=0;i<GameManager.instance.dataTest.Count;i++){
+                            if(selectNftUsed){
+                                if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName){
+                                    itemID = GameManager.instance.dataTest[i].nft_id;
+                                    selectNftUsed = false;
+                                }
+                            } 
+                        }
                         GameManager.instance.Crop(urlCropNFT,addressWallet,itemID,checkAreaCrop);
                     }
             for(int k=0;k<GameManager.instance.dataTest.Count;k++){ 

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     //จำนวนไอเทมที่เลือก
     int indexAmountItem;
     //ไอเทมที่เลือก
-    Items chooseItem;
+    public Items chooseItem;
     //เชคว่าคลิกไอเทมในเป่ายุไหม
     public bool checkClickItem = false;
     //object ในช่องปลูก
@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     public TextMesh[] textTime;
 
     public List<Data> dataTest = new List<Data>();
+
+    bool checkTest = true;
+    string fixID ;
 
    
     
@@ -328,17 +331,29 @@ public class GameManager : MonoBehaviour
     }
 
     public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop ){
-            
+          
             if(checkClickItem){
+               
                  textTime[checkAreaCrop].gameObject.SetActive(true);
                 actionFinish = true;
                 numberLand = checkAreaCrop;
                
-                if(chooseItem.status == "animal"){
-                    statusAction = "ให้อาหาร";
-                }else if(chooseItem.status == "fruit"){
-                    statusAction = "รดน้ำ";
-                }
+                // if(chooseItem.status == "animal"){
+                //     statusAction = "ให้อาหาร";
+                // }else if(chooseItem.status == "fruit"){
+                //     statusAction = "รดน้ำ";
+                // }
+
+                // for(int i=0;i<dataTest.Count;i++){
+                //     if(checkTest){
+                //         if(dataTest[i].name == chooseItem.itemName){
+                //             fixID = dataTest[i].nft_id;
+                //             checkTest = false;
+                //         }
+                //     }
+                      
+                    
+                // }
         
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
                 

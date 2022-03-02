@@ -15,4 +15,5 @@ public class Items : ScriptableObject
    public string textWood;
    public string textfruit;
    public string status;
+   public string Nft_id;
 }
