@@ -8,6 +8,8 @@ public class Action : MonoBehaviour
 
     bool clash = false;
     [SerializeField] int checkAreaCrop ;
+
+    [SerializeField] string checkNftId ;
     public Items[] itemData ;
 
     
@@ -57,6 +59,7 @@ public class Action : MonoBehaviour
                             if(selectNftUsed){
                                 if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName){
                                     itemID = GameManager.instance.dataTest[i].nft_id;
+                                    GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
                                     selectNftUsed = false;
                                 }
                             } 
@@ -71,7 +74,10 @@ public class Action : MonoBehaviour
                         
                         Debug.Log("checkHavest");
                         clash = false;
+
+                        
                         Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                        string getNft_id = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId;
                         if(getSprite != null){
                         StartCoroutine(GameManager.instance.HttpHavestPost(urlHavestNFT,addressWallet,itemID,checkAreaCrop));
                     }

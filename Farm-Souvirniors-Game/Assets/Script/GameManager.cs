@@ -60,8 +60,6 @@ public class GameManager : MonoBehaviour
 
     public List<Data> dataTest = new List<Data>();
 
-    bool checkTest = true;
-    string fixID ;
 
    
     
@@ -135,9 +133,11 @@ public class GameManager : MonoBehaviour
                 var response = webRequest.downloadHandler.text ;
             
                 JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
+                     Debug.Log(result);
                      
                         for(int i=0;i<result.data.Length;i++){
-                                    dataTest.Add(new Data{
+                       
+                                 dataTest.Add(new Data{
                                        address_wallet = addressWallet,
                                        nft_id = result.data[i].nft_id,
                                        name = result.data[i].name,
@@ -148,9 +148,11 @@ public class GameManager : MonoBehaviour
                                         position_plant = result.data[i].position_plant
                                     }) ; 
                             
+                            
+                                   
                             for(int y=0;y<AllItem.Length;y++){
                                    if(result.data[i].name == AllItem[y].itemName){
-                                       if(result.data[i].status == "not_plant"){
+                                       if(result.data[i].status == "not_use"){
                                             if(!items.Contains(AllItem[y])){
                                             items.Add(AllItem[y]);
                                              itemNumbers.Add(1);
@@ -167,7 +169,7 @@ public class GameManager : MonoBehaviour
                                         //    if(result.data[i].cooldownFeedTime != "00.00"){
                                         //          textTime[i].text = result.data[i].cooldownFeedTime;
                                         //    }else{
-                                                 if(result.data[i].type == "vegetable"){
+                                                 if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                                 showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
                                                 }else if(result.data[i].type == "animal"){
@@ -178,7 +180,7 @@ public class GameManager : MonoBehaviour
                                         //    }
                                           
                                        }else if(result.data[i].status == "wait_harvest" ){
-                                           if(result.data[i].type == "vegetable"){
+                                           if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                             showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
                                            }else if(result.data[i].type == "animal"){

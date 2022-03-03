@@ -32,7 +32,7 @@ using UnityEngine;
 
         public string cooldownHarvestTime ;
 
-        public int position_plant;
+        public int position_plant ;
         
        
  }
