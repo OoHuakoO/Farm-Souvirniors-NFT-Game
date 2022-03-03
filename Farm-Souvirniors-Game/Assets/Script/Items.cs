@@ -15,4 +15,6 @@ public class Items : ScriptableObject
    public string textWood;
    public string textfruit;
 
+   public List<string> test = new List<string>();
+
 }
