@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     private string statusAction ;
 
     public List<float> timeStart = new List<float>() ;
-    public bool actionFinish ;
+    public bool actionTimeout ;
 
     public int numberLand ;
 
@@ -86,18 +86,18 @@ public class GameManager : MonoBehaviour
         // for(int j ; j<dataTest.Length;j++){
             // if(dataTest[l].cooldownFeedTime || dataTest[l].cooldownHarvestTime){
                 Debug.Log(timeStart);
-                timeStart.Add(60f);
-                timeStart.Add(50f);
-                 timeStart.Add(40f);
-                timeStart.Add(30f);
-                 timeStart.Add(20f);
-                timeStart.Add(70f);
-                 timeStart.Add(80f);
-                timeStart.Add(90f);
-                 timeStart.Add(60f);
-                timeStart.Add(50f);
-                 timeStart.Add(40f);
-                timeStart.Add(30f);
+                timeStart.Add(0f);
+                timeStart.Add(4f);
+                 timeStart.Add(3f);
+                timeStart.Add(2f);
+                 timeStart.Add(5f);
+                timeStart.Add(5f);
+                 timeStart.Add(6f);
+                timeStart.Add(7f);
+                 timeStart.Add(4f);
+                timeStart.Add(3f);
+                 timeStart.Add(1f);
+                timeStart.Add(2f);
               
            
             // }
@@ -109,40 +109,34 @@ public class GameManager : MonoBehaviour
           for(int i = 0 ;i<timeStart.Count;i++){
                     timeStart[i] -= Time.deltaTime;
                      if(timeStart[i] <= 0){                      
-                         textTime[i].text = 0.ToString();
+                         textTime[i].text = "0";
                          timeControl(i);
+                     }else{
+                          textTime[i].text = Mathf.Round(timeStart[i]).ToString();
                      }
-                    textTime[i].text = Mathf.Round(timeStart[i]).ToString();
+                   
                 }
          
-        // if(actionFinish){
+        if(actionTimeout){
                
-        //          timeStart[numberLand] -= Time.deltaTime;
-        //          Debug.Log(timeStart[numberLand]);
-        //         if(timeStart[numberLand] <= 0){
-        //             textTime[numberLand].text = 0.ToString();
-        //             actionFinish = false;
-        //             if(statusAction == "เก็บผักผลไม้"){
-        //                  showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
-        //             }else if(statusAction == "เก็บเนื้อ"){
-        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
-        //             }else if(statusAction == "รดน้ำ"){
-        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
-        //             }else if(statusAction == "ให้อาหาร"){
-        //                 showCrop[numberLand].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
-        //             }
-                   
-        //         }else{  
-        //             textTime[numberLand].text = Mathf.Round(timeStart[numberLand]).ToString();
-        //         }
+                 timeStart[numberLand] -= Time.deltaTime;
+                if(timeStart[numberLand] <= 0){
+                    textTime[numberLand].text = "0";
+                    timeControl(numberLand);
+                    actionTimeout = false;
+                }else{
+                    textTime[numberLand].text = Mathf.Round(timeStart[numberLand]).ToString();
+                }
+                    
+                
             
-        // }
+        }
       
       
     }
 
     public void timeControl(int i){
-        textTime[i].gameObject.SetActive(false);
+        textTime[i].text = "0";
         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
         }
@@ -351,8 +345,7 @@ public class GameManager : MonoBehaviour
 
      public void addItem (Items item ,int checkAreaCrop){
 
-        showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-        // textTime[checkAreaCrop].gameObject.SetActive(false);
+      
 
          Debug.Log("Additem");
          //ถ้าไม่มีไอเทมชิ้นนี้อยู่ในกระเป็าให้เพิ่มไอเทมนี้เข้าไป แล้วให้จำนวนเป็น 1
@@ -410,13 +403,8 @@ public class GameManager : MonoBehaviour
           
             if(checkClickItem){
                
-                //  textTime[checkAreaCrop].gameObject.SetActive(true);
-                // actionFinish = true;
-                // numberLand = checkAreaCrop;
+      
                
-
-               
-        
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
                 
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
