@@ -84,10 +84,6 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(HttpGet(urlGetNFT));
       
-    
-     
-
-        
     }
 
     private void Update(){
@@ -172,9 +168,13 @@ public class GameManager : MonoBehaviour
                                                  if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                                 showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
                                                 }else if(result.data[i].type == "animal"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                                 showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+                                                 itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
                                                 }
                                            
                                         //    }
@@ -183,9 +183,13 @@ public class GameManager : MonoBehaviour
                                            if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                             showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                                           itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                              itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
                                            }else if(result.data[i].type == "animal"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                             showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+                                            itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                               itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
                                            }
                                             
                                        }
@@ -224,12 +228,12 @@ public class GameManager : MonoBehaviour
 
          //PostHavestNFT
 
-         public IEnumerator HttpHavestPost(string url, string address , string itemId,int checkAreaCrop)
+         public IEnumerator HttpHavestPost(string url, string address , string itemId)
         {
             var dataHavest = new myClass();
             dataHavest.address_wallet = address;
             dataHavest.nft_id = itemId;
-            dataHavest.position_plant = checkAreaCrop;
+            
             string json = JsonUtility.ToJson(dataHavest);
             Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
@@ -241,6 +245,25 @@ public class GameManager : MonoBehaviour
 
             }
         }
+        
+        //PostFeed
+          public IEnumerator HttpFeedPost(string url, string address , string itemId)
+        {
+            var dataFeed = new myClass();
+            dataFeed.address_wallet = address;
+            dataFeed.nft_id = itemId;
+            string json = JsonUtility.ToJson(dataFeed);
+            Debug.Log(json);
+           using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
+            {
+               
+                webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
+                  webRequest.SetRequestHeader("Content-Type", "application/json");
+                yield return webRequest.SendWebRequest();
+
+            }
+        }
+    
     
 
    
