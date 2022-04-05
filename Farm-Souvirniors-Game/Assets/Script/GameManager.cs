@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 
 
@@ -83,8 +84,7 @@ public class GameManager : MonoBehaviour
    private void Start() {
 
         StartCoroutine(HttpGet(urlGetNFT));
-        // for(int j ; j<dataTest.Length;j++){
-            // if(dataTest[l].cooldownFeedTime || dataTest[l].cooldownHarvestTime){
+   
                 Debug.Log(timeStart);
                 timeStart.Add(5f);
                 timeStart.Add(4f);
@@ -100,15 +100,14 @@ public class GameManager : MonoBehaviour
                 timeStart.Add(2f);
               
            
-            // }
-        // }
+       
 
     }
 
     private void Update(){       
           for(int i = 0 ;i<timeStart.Count;i++){
                     timeStart[i] -= Time.deltaTime;
-                     if(timeStart[i] <= 0){                      
+                     if(timeStart[i] <= 0 ){                      
                          textTime[i].text = "0";
                          timeControl(i);
                      }else{
@@ -117,7 +116,7 @@ public class GameManager : MonoBehaviour
                    
                 }
          
-        if(actionTimeout){
+            if(actionTimeout){
                
                  timeStart[numberLand] -= Time.deltaTime;
                 if(timeStart[numberLand] <= 0){
@@ -244,7 +243,10 @@ public class GameManager : MonoBehaviour
                              
                             
                         }
-                            
+
+                       
+                     
+                         
                                         
             }
              displayItems();
