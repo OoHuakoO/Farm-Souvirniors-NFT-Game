@@ -78,8 +78,9 @@ public class Action : MonoBehaviour
                                                 itemID = GameManager.instance.dataTest[i].nft_id;
                                                         GameManager.instance.actionTimeout = true;
                                                         GameManager.instance.numberLand = checkAreaCrop;
-                                                        GameManager.instance.timeStart[checkAreaCrop] = 10f;
+                                                        GameManager.instance.timeStart[checkAreaCrop] = 60f;
                                                         GameManager.instance.dataTest[i].status = "wait_feed";
+                                                        GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
                                                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
                                                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
                                                         selectNftUsed = false;
@@ -132,7 +133,7 @@ public class Action : MonoBehaviour
                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
                         GameManager.instance.dataTest[k].status = "wait_harvest";
                         GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                         GameManager.instance.timeStart[checkAreaCrop] = 10f;
+                         GameManager.instance.timeStart[checkAreaCrop] = 60f;
                         GameManager.instance.actionTimeout = true;
                         GameManager.instance.numberLand = checkAreaCrop;
                         StartCoroutine(GameManager.instance.HttpFeedPost(urlFeedNFT,addressWallet,getNft_id));

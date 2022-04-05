@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         // for(int j ; j<dataTest.Length;j++){
             // if(dataTest[l].cooldownFeedTime || dataTest[l].cooldownHarvestTime){
                 Debug.Log(timeStart);
-                timeStart.Add(0f);
+                timeStart.Add(5f);
                 timeStart.Add(4f);
                  timeStart.Add(3f);
                 timeStart.Add(2f);
@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void timeControl(int i){
-        textTime[i].text = "0";
+        
         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
         }
@@ -283,7 +283,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
             {
-               
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
