@@ -98,6 +98,12 @@ public class GameManager : MonoBehaviour
                 timeStart.Add(3f);
                  timeStart.Add(1f);
                 timeStart.Add(2f);
+                timeStart.Add(5f);
+                timeStart.Add(4f);
+                 timeStart.Add(3f);
+                timeStart.Add(2f);
+                 timeStart.Add(5f);
+                timeStart.Add(5f);
               
            
        
@@ -135,7 +141,6 @@ public class GameManager : MonoBehaviour
     }
 
     public void timeControl(int i){
-        
         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
         }
@@ -378,19 +383,30 @@ public class GameManager : MonoBehaviour
                     slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
                     
                      //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
+
                     if(item.type == "plant"){
-                        for(int y=0 ; y<itemsCrop.Length ;y++){
+                        for(int j=12 ; j<18 ;j++){
+                            if(itemsCrop[j].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[j].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                            }
+                        }
+                        for(int y=0 ; y<12  ;y++){
                         if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
                             itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                         }
                     }
                     }
                     else if(item.type == "animal"){
-                         for(int y=0 ; y<itemsCrop.Length ;y++){
-                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                        for(int y=0 ; y<12  ;y++){
+                            if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                            }
                         }
-                    }
+                        for(int j=12 ; j<18 ;j++){
+                            if(itemsCrop[j].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[j].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                            }
+                        }
                     }
                     
     

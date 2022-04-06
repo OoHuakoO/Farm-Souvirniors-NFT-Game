@@ -49,8 +49,10 @@ public class Action : MonoBehaviour
             //  GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
 
          
-                if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "plant" && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
+                if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
                     GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                }else if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17 ) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
+                     GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                 }
                 else
                 {

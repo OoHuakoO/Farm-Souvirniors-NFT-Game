@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Apple
   m_EditorClassIdentifier: 
   itemName: apple
+  type: plant
   itemSprite: {fileID: 21300000, guid: 4cc6ca8fc6f26418ba0a514772f6eb06, type: 3}
   textName: Apple
   textReward: 'Reward: 50  fruit'
@@ -20,4 +21,4 @@ MonoBehaviour:
   textEnergy: 'Energy Consumed: 12 meat'
   textWood: 5000
   textfruit: 1000
-  status: fruit
+  test: []

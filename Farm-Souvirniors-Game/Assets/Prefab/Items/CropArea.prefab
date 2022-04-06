@@ -124,7 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a507650dfcdd247beef6a8b2a6cbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkAreaCrop: 0
+  checkAreaCrop: 5
+  checkNftId: 
+  statusNFT: 
+  typeNFT: 
   itemData:
   - {fileID: 11400000, guid: d62614ba939f5a940a5b011b3c8111de, type: 2}
   - {fileID: 11400000, guid: 36bf7fffe49f5694a8885bcd81d3b2d3, type: 2}
