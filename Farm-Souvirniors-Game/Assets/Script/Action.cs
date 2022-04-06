@@ -44,8 +44,12 @@ public class Action : MonoBehaviour
      private void OnTriggerExit2D(Collider2D other) {
         if(other.tag == "Player"){
             clash = false;
+
+
+            //  GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+
          
-                if(GameManager.instance.checkClickItem && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
+                if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "plant" && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
                     GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                 }
                 else
@@ -60,7 +64,6 @@ public class Action : MonoBehaviour
     }
 
    void OnCropAndHavest (InputValue value){
-          
         //ถ้าชน
          if(clash){
 
@@ -70,12 +73,12 @@ public class Action : MonoBehaviour
                         Debug.Log("checkCrop");
                         clash = false;
                         for(int i=0;i<GameManager.instance.dataTest.Count;i++){
-                             if(selectNftUsed){
-                                 
-                                       
-                                        if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName && GameManager.instance.dataTest[i].status == "not_plant"){
+                            if(selectNftUsed){
+                                Debug.Log(checkAreaCrop);
 
-                                                itemID = GameManager.instance.dataTest[i].nft_id;
+                                    if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName && GameManager.instance.dataTest[i].status == "not_plant"){
+
+                                                        itemID = GameManager.instance.dataTest[i].nft_id;
                                                         GameManager.instance.actionTimeout = true;
                                                         GameManager.instance.numberLand = checkAreaCrop;
                                                         GameManager.instance.timeStart[checkAreaCrop] = 60f;
@@ -85,10 +88,14 @@ public class Action : MonoBehaviour
                                                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
                                                         selectNftUsed = false;
                                          
-                                        } 
-                         
+                                    } 
+
                           
-                                }
+                                
+                               
+                               
+                            }
+                            
                         }
                         GameManager.instance.Crop(urlCropNFT,addressWallet,itemID,checkAreaCrop);
                     }

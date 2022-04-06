@@ -7,6 +7,7 @@ using UnityEngine;
 public class Items : ScriptableObject
 {
    public string itemName;
+   public string type;
    public Sprite itemSprite;
    public string textName;
    public string textReward;

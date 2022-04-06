@@ -378,11 +378,21 @@ public class GameManager : MonoBehaviour
                     slots[i].transform.GetComponent<Image>().color = new Color(1,1,1,1);
                     
                      //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
-                    for(int y=0 ; y<itemsCrop.Length ;y++){
+                    if(item.type == "plant"){
+                        for(int y=0 ; y<itemsCrop.Length ;y++){
                         if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
                             itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                         }
                     }
+                    }
+                    else if(item.type == "animal"){
+                         for(int y=0 ; y<itemsCrop.Length ;y++){
+                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                        }
+                    }
+                    }
+                    
     
 
                     // setเพื่อเก็บค่า item กดใช้ไปใช้ต่อในฟังชันอื่น
@@ -403,30 +413,39 @@ public class GameManager : MonoBehaviour
     public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop ){
           
             if(checkClickItem){
-               
-      
-               
+               Debug.Log(checkAreaCrop);
+                if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11)){
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
-                
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
-                 itemNumbers[indexAmountItem]--;
+                itemNumbers[indexAmountItem]--;
+                }
+
+                else if(chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17  ))
+                {
+                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
+                itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
+                itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
+                itemNumbers[indexAmountItem]--;
+                }
+               
+                 
             
                 
-            if(itemNumbers[indexAmountItem] == 0){   
-                items.Remove(chooseItem);
-                itemNumbers.Remove(itemNumbers[indexAmountItem]);
-                checkClickItem = false;
-                slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
-                slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
-                 //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
-                    for(int y=0 ; y<itemsCrop.Length ;y++){
-                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                if(itemNumbers[indexAmountItem] == 0){   
+                    items.Remove(chooseItem);
+                    itemNumbers.Remove(itemNumbers[indexAmountItem]);
+                    checkClickItem = false;
+                    slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
+                    slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
+                    //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
+                        for(int y=0 ; y<itemsCrop.Length ;y++){
+                            if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                            }
                         }
-                    }
              
-            }
+                }
             }
       displayItems();
     } 
