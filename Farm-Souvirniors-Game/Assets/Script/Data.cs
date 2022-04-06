@@ -28,9 +28,9 @@ using UnityEngine;
         
         public string status ;
         
-        public string cooldownFeedTime ;
+        public int minutesCooldownTime ;
 
-        public string cooldownHarvestTime ;
+        public int secondCooldownTime ;
 
         public int position_plant ;
         

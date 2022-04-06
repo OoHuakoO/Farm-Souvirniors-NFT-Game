@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
 
     public List<Data> dataTest = new List<Data>();
 
+    public bool checkGetAPIFinish = false ;
+
 
    
     
@@ -84,26 +86,29 @@ public class GameManager : MonoBehaviour
    private void Start() {
 
         StartCoroutine(HttpGet(urlGetNFT));
-   
-                Debug.Log(timeStart);
-                timeStart.Add(5f);
-                timeStart.Add(4f);
-                 timeStart.Add(3f);
-                timeStart.Add(2f);
-                 timeStart.Add(5f);
-                timeStart.Add(5f);
-                 timeStart.Add(6f);
-                timeStart.Add(7f);
-                 timeStart.Add(4f);
-                timeStart.Add(3f);
-                 timeStart.Add(1f);
-                timeStart.Add(2f);
-                timeStart.Add(5f);
-                timeStart.Add(4f);
-                 timeStart.Add(3f);
-                timeStart.Add(2f);
-                 timeStart.Add(5f);
-                timeStart.Add(5f);
+            // for(int i=0 ; i<dataTest.Count ; i++){
+            //     timeStart.Add(10f);
+                
+            // }
+            //  Debug.Log(timeStart);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
+                 timeStart.Add(0);
+                timeStart.Add(0);
               
            
        
@@ -112,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     private void Update(){       
           for(int i = 0 ;i<timeStart.Count;i++){
+          
                     timeStart[i] -= Time.deltaTime;
                      if(timeStart[i] <= 0 ){                      
                          textTime[i].text = "0";
@@ -141,18 +147,20 @@ public class GameManager : MonoBehaviour
     }
 
     public void timeControl(int i){
-        if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
+        // if(checkGetAPIFinish){
+            if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
         }
-         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && itemsCrop[i].GetComponent<Action>().typeNFT == "animal"){
+         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" &&  itemsCrop[i].GetComponent<Action>().typeNFT == "animal"){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
         }
-         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_feed" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
+         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_feed" &&  (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
         }
-         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_feed" && itemsCrop[i].GetComponent<Action>().typeNFT == "animal"){
+         if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_feed" &&  itemsCrop[i].GetComponent<Action>().typeNFT == "animal"){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
         }
+        // }
     }
 
    
@@ -178,12 +186,15 @@ public class GameManager : MonoBehaviour
                                        name = result.data[i].name,
                                        type = result.data[i].type,
                                        status = result.data[i].status,
-                                       cooldownFeedTime = result.data[i].cooldownFeedTime ,
-                                        cooldownHarvestTime = result.data[i].cooldownHarvestTime,
+                                       minutesCooldownTime = result.data[i].minutesCooldownTime ,
+                                        secondCooldownTime = result.data[i].secondCooldownTime, 
                                         position_plant = result.data[i].position_plant
                                     }) ; 
-                            
-                            
+                             
+                                   Debug.Log(result.data[i].secondCooldownTime);
+                               
+                              
+                       
                                    
                             for(int y=0;y<AllItem.Length;y++){
                                 
@@ -205,40 +216,77 @@ public class GameManager : MonoBehaviour
                                             }
                                        }
                                        else if(result.data[i].status == "wait_feed" ){
-                                        //    if(result.data[i].cooldownFeedTime != "00.00"){
-                                        //          textTime[i].text = result.data[i].cooldownFeedTime;
-                                        //    }else{
-                                                 if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
-                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                                showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
-                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
-                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
-                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
+                                          
+                                                if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
+                                                    itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+                                                    if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                   
+                                                    showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
+                                               }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                    
+                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                }   
+                                                    
+                                                
+                                                
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
                                                 
                                                 }else if(result.data[i].type == "animal"){
-                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                                showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
-                                                 itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                                    itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
+
+                                               if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                   Debug.Log("1");
+                                                    showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
+                                               }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                    Debug.Log("2");
+                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                }   
+
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
                                                     itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
-                                                      itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
+                                                    itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
                                                 }
+                                         
+                                   
+                                               
                                            
                                         //    }
                                           
-                                       }else if(result.data[i].status == "wait_harvest" ){
+                                       }else if(result.data[i].status == "wait_harvest"  ){
+                                            
                                            if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                            showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                                                
+                                                if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                 
+                                                  showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
+                                                }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                     
+                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                }   
+                                                
+                                                
                                            itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
                                               itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
                                                 itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
                                            }else if(result.data[i].type == "animal"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                            showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
-                                            itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
-                                               itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
-                                                 itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
+
+                                                if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                     Debug.Log("3");
+                                                    showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
+                                                }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                     Debug.Log("4");
+                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                }   
+                                                
+                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
+                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().statusNFT = result.data[i].status;
+                                                itemsCrop[result.data[i].position_plant].GetComponent<Action>().typeNFT = result.data[i].type;
                                            }
+                                           
                                             
                                        }
                                       
@@ -248,8 +296,16 @@ public class GameManager : MonoBehaviour
                              
                             
                         }
-
                        
+                        // checkGetAPIFinish = true;
+                            //     Debug.Log(dataTest.Count);
+                            //   for(int i=0 ; i<dataTest.Count ; i++){
+                            //       if(dataTest[i].status != "not_plant"){
+                            //            timeStart[i] = dataTest[i].secondCooldownTime ;
+                            //       }
+                                
+                
+                            //     }
                      
                          
                                         
