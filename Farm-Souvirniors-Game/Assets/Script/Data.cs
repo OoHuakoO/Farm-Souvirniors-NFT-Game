@@ -28,9 +28,9 @@ using UnityEngine;
         
         public string status ;
         
-        public int minutesCooldownTime ;
+        public int cooldownTime ;
 
-        public int secondCooldownTime ;
+   
 
         public int position_plant ;
         

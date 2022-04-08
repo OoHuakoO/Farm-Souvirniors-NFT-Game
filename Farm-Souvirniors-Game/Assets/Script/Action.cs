@@ -83,7 +83,7 @@ public class Action : MonoBehaviour
                                                         itemID = GameManager.instance.dataTest[i].nft_id;
                                                         GameManager.instance.actionTimeout = true;
                                                         GameManager.instance.numberLand = checkAreaCrop;
-                                                        GameManager.instance.timeStart[checkAreaCrop] = 60f;
+                                                        GameManager.instance.timeStart[checkAreaCrop] = 120f;
                                                         GameManager.instance.dataTest[i].status = "wait_feed";
                                                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
                                                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
@@ -105,7 +105,7 @@ public class Action : MonoBehaviour
                 //ถ้าตำแหน่งที่ปลูกที่ดึงมาจาก api ตรงกับช่องที่ปลูกที่ยืนอยู่
                 if(GameManager.instance.dataTest[k].position_plant == checkAreaCrop){
                        
-                    if((GameManager.instance.items.Count < GameManager.instance.slots.Length) && (GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_harvest" && GameManager.instance.textTime[checkAreaCrop].text == "0")){
+                    if((GameManager.instance.items.Count < GameManager.instance.slots.Length) && (GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_harvest" && GameManager.instance.timeStart[checkAreaCrop] <= 0)){
                        
                             Debug.Log("checkHavest");
                             clash = false;      
@@ -132,7 +132,7 @@ public class Action : MonoBehaviour
                         
                        
             
-                    }else if(GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_feed" && GameManager.instance.textTime[checkAreaCrop].text == "0" ){
+                    }else if(GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_feed" && GameManager.instance.timeStart[checkAreaCrop] <= 0  ){
                         // && GameManager.instance.textTime[checkAreaCrop].text == null
                         Debug.Log("checkFeed");
                         clash = false;
@@ -142,7 +142,7 @@ public class Action : MonoBehaviour
                         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
                         GameManager.instance.dataTest[k].status = "wait_harvest";
                         GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                         GameManager.instance.timeStart[checkAreaCrop] = 60f;
+                         GameManager.instance.timeStart[checkAreaCrop] = 120f;
                         GameManager.instance.actionTimeout = true;
                         GameManager.instance.numberLand = checkAreaCrop;
                         StartCoroutine(GameManager.instance.HttpFeedPost(urlFeedNFT,addressWallet,getNft_id));

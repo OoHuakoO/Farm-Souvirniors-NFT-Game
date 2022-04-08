@@ -54,18 +54,29 @@ public class GameManager : MonoBehaviour
     public int numberLand ;
 
     
-    string urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/0x629812063124cE2448703B889D754b232B3622BA";
 
-    string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
+    
+
+
+    public string urlGetNFT ;
+    public string addressWallet ;
     public TextMesh[] textTime;
 
     public List<Data> dataTest = new List<Data>();
 
     public bool checkGetAPIFinish = false ;
 
+    
+    
+   
+  
 
    
-    
+    public void SpawnEnemies (string amount) {
+    Debug.Log ($"Spawning {amount} enemies!");
+    addressWallet = amount;
+ 
+    }
 
 
     
@@ -81,16 +92,16 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
    }
 
+  
 
+    
 
    private void Start() {
-
+      
+        urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/" + addressWallet;  
+        Debug.Log(urlGetNFT);
         StartCoroutine(HttpGet(urlGetNFT));
-            // for(int i=0 ; i<dataTest.Count ; i++){
-            //     timeStart.Add(10f);
-                
-            // }
-            //  Debug.Log(timeStart);
+            
                 timeStart.Add(0);
                 timeStart.Add(0);
                  timeStart.Add(0);
@@ -115,33 +126,49 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void Update(){       
+    private void Update(){     
+        
+    
           for(int i = 0 ;i<timeStart.Count;i++){
           
                     timeStart[i] -= Time.deltaTime;
-                     if(timeStart[i] <= 0 ){                      
-                         textTime[i].text = "0";
+                   TimeSpan timePlaying = TimeSpan.FromSeconds(timeStart[i]);
+                  
+                   textTime[i].text = timePlaying.ToString("mm':'ss");
+                    if(timeStart[i] <= 0 ){                      
+                         textTime[i].text = "";
                          timeControl(i);
-                     }else{
-                          textTime[i].text = Mathf.Round(timeStart[i]).ToString();
-                     }
+                    }
+                    if(timeStart[i] > 60){
+                        Debug.Log("lol1");
+                        string SyntaxTime = timePlaying.ToString("mm':'ss");
+                        textTime[i].text = SyntaxTime;
+                    }
+                    
                    
-                }
+            }
          
-            if(actionTimeout){
+        //     if(actionTimeout){
                
-                 timeStart[numberLand] -= Time.deltaTime;
-                if(timeStart[numberLand] <= 0){
-                    textTime[numberLand].text = "0";
-                    timeControl(numberLand);
-                    actionTimeout = false;
-                }else{
-                    textTime[numberLand].text = Mathf.Round(timeStart[numberLand]).ToString();
-                }
+        //          timeStart[numberLand] -= Time.deltaTime;
+        //          TimeSpan timePlaying2 = TimeSpan.FromSeconds(timeStart[numberLand]);
+                  
+        //          textTime[numberLand].text = timePlaying2.ToString("mm':'ss");
+        //         if(timeStart[numberLand] <= 0){
+        //             textTime[numberLand].text = ""; 
+        //             timeControl(numberLand);
+        //             actionTimeout = false;
+        //         }
+        //         if(timeStart[numberLand] > 60){
+        //                 Debug.Log("lol2");
+        //                 string SyntaxTime = timePlaying2.ToString("mm':'ss");
+        //                 textTime[numberLand].text = SyntaxTime;
+        //         }
+               
                     
                 
             
-        }
+        // }
       
       
     }
@@ -174,6 +201,8 @@ public class GameManager : MonoBehaviour
             {
                 yield return webRequest.SendWebRequest();
                 var response = webRequest.downloadHandler.text ;
+             
+                
             
                 JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
                      Debug.Log(result);
@@ -186,12 +215,12 @@ public class GameManager : MonoBehaviour
                                        name = result.data[i].name,
                                        type = result.data[i].type,
                                        status = result.data[i].status,
-                                       minutesCooldownTime = result.data[i].minutesCooldownTime ,
-                                        secondCooldownTime = result.data[i].secondCooldownTime, 
+                                       cooldownTime = result.data[i].cooldownTime ,
+                                         
                                         position_plant = result.data[i].position_plant
                                     }) ; 
                              
-                                   Debug.Log(result.data[i].secondCooldownTime);
+                                 
                                
                               
                        
@@ -219,12 +248,12 @@ public class GameManager : MonoBehaviour
                                           
                                                 if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                     itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
-                                                    if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                    if(result.data[i].cooldownTime == 0 ){
                                                    
                                                     showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[2].itemSprite;
-                                               }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                               }else if(result.data[i].cooldownTime > 0 ){
                                                     
-                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                    timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
                                                     
                                                 
@@ -236,12 +265,12 @@ public class GameManager : MonoBehaviour
                                                 }else if(result.data[i].type == "animal"){
                                                     itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
 
-                                               if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                               if(result.data[i].cooldownTime == 0 ){
                                                    Debug.Log("1");
                                                     showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
-                                               }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                               }else if(result.data[i].cooldownTime > 0 ){
                                                     Debug.Log("2");
-                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                    timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
 
                                                     itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
@@ -259,12 +288,12 @@ public class GameManager : MonoBehaviour
                                            if(result.data[i].type == "vegetable" || result.data[i].type == "fruit"){
                                                itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
                                                 
-                                                if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                if(result.data[i].cooldownTime == 0 ){
                                                  
                                                   showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
-                                                }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                }else if(result.data[i].cooldownTime > 0 ){
                                                      
-                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                    timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
                                                 
                                                 
@@ -274,12 +303,12 @@ public class GameManager : MonoBehaviour
                                            }else if(result.data[i].type == "animal"){
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
 
-                                                if(result.data[i].minutesCooldownTime == 0 && result.data[i].secondCooldownTime == 0){
+                                                if(result.data[i].cooldownTime == 0 ){
                                                      Debug.Log("3");
                                                     showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
-                                                }else if(result.data[i].minutesCooldownTime > 0 || result.data[i].secondCooldownTime > 0){
+                                                }else if(result.data[i].cooldownTime > 0 ){
                                                      Debug.Log("4");
-                                                    timeStart[result.data[i].position_plant] = result.data[i].secondCooldownTime;
+                                                    timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
                                                 
                                                 itemsCrop[result.data[i].position_plant].GetComponent<Action>().checkNftId = result.data[i].nft_id;
@@ -296,16 +325,8 @@ public class GameManager : MonoBehaviour
                              
                             
                         }
+                  
                        
-                        // checkGetAPIFinish = true;
-                            //     Debug.Log(dataTest.Count);
-                            //   for(int i=0 ; i<dataTest.Count ; i++){
-                            //       if(dataTest[i].status != "not_plant"){
-                            //            timeStart[i] = dataTest[i].secondCooldownTime ;
-                            //       }
-                                
-                
-                            //     }
                      
                          
                                         
