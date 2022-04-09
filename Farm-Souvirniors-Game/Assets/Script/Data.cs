@@ -46,10 +46,20 @@ public class myClass
 }
 
 
-// public class OJO
-// {
-//       public string address_wallett {get ; set;}
-//        public string nft_idt {get ; set;}
-//   public float timeStart {get ; set;}
- 
-// }
+
+public class handleFeed
+{
+  public ObjectDataFeed data ;
+  public string status ;
+}
+public class ObjectDataFeed{
+  public string cooldownTime;
+}
+
+public class handleHavest
+{
+  public string data ;
+  public string status ;
+}
+
+

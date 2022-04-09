@@ -53,30 +53,20 @@ public class GameManager : MonoBehaviour
 
     public int numberLand ;
 
-    
 
     
 
 
     public string urlGetNFT ;
-    public string addressWallet ;
     public TextMesh[] textTime;
 
     public List<Data> dataTest = new List<Data>();
 
     public bool checkGetAPIFinish = false ;
 
-    
-    
-   
-  
+    public string resultResponseData ;
+    public string resultResponseStatus ;
 
-   
-    public void SpawnEnemies (string amount) {
-    Debug.Log ($"Spawning {amount} enemies!");
-    addressWallet = amount;
- 
-    }
 
 
     
@@ -97,10 +87,12 @@ public class GameManager : MonoBehaviour
     
 
    private void Start() {
-      
-        urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/" + addressWallet;  
-        Debug.Log(urlGetNFT);
-        StartCoroutine(HttpGet(urlGetNFT));
+
+            urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/" + LoadingScreen.same.addressWallet;
+       
+            StartCoroutine(HttpGet(urlGetNFT));
+        
+     
             
                 timeStart.Add(0);
                 timeStart.Add(0);
@@ -127,8 +119,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update(){     
-        
-    
+       
+        // Debug.Log(resultResponseData);
           for(int i = 0 ;i<timeStart.Count;i++){
           
                     timeStart[i] -= Time.deltaTime;
@@ -140,7 +132,7 @@ public class GameManager : MonoBehaviour
                          timeControl(i);
                     }
                     if(timeStart[i] > 60){
-                        Debug.Log("lol1");
+                        // Debug.Log("lol1");
                         string SyntaxTime = timePlaying.ToString("mm':'ss");
                         textTime[i].text = SyntaxTime;
                     }
@@ -174,7 +166,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void timeControl(int i){
-        // if(checkGetAPIFinish){
+    
             if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_harvest" && (itemsCrop[i].GetComponent<Action>().typeNFT == "fruit" || itemsCrop[i].GetComponent<Action>().typeNFT == "vegetable")){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[0].itemSprite;
         }
@@ -187,7 +179,7 @@ public class GameManager : MonoBehaviour
          if(itemsCrop[i].GetComponent<Action>().statusNFT == "wait_feed" &&  itemsCrop[i].GetComponent<Action>().typeNFT == "animal"){
             showCrop[i].GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
         }
-        // }
+        
     }
 
    
@@ -205,12 +197,12 @@ public class GameManager : MonoBehaviour
                 
             
                 JsonClass result = JsonConvert.DeserializeObject<JsonClass>(response);
-                     Debug.Log(result);
+                    //  Debug.Log(result);
                      
                         for(int i=0;i<result.data.Length;i++){
                             
                                  dataTest.Add(new Data{
-                                       address_wallet = addressWallet,
+                                       address_wallet = LoadingScreen.same.addressWallet,
                                        nft_id = result.data[i].nft_id,
                                        name = result.data[i].name,
                                        type = result.data[i].type,
@@ -266,10 +258,10 @@ public class GameManager : MonoBehaviour
                                                     itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
 
                                                if(result.data[i].cooldownTime == 0 ){
-                                                   Debug.Log("1");
+                                                //    Debug.Log("1");
                                                     showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[3].itemSprite;
                                                }else if(result.data[i].cooldownTime > 0 ){
-                                                    Debug.Log("2");
+                                                    // Debug.Log("2");
                                                     timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
 
@@ -304,10 +296,10 @@ public class GameManager : MonoBehaviour
                                                 itemsCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite = AllItem[y].itemSprite;
 
                                                 if(result.data[i].cooldownTime == 0 ){
-                                                     Debug.Log("3");
+                                                    //  Debug.Log("3");
                                                     showCrop[result.data[i].position_plant].transform.GetComponent<SpriteRenderer>().sprite =  itemAction[1].itemSprite;
                                                 }else if(result.data[i].cooldownTime > 0 ){
-                                                     Debug.Log("4");
+                                                    //  Debug.Log("4");
                                                     timeStart[result.data[i].position_plant] = result.data[i].cooldownTime;
                                                 }   
                                                 
@@ -338,57 +330,114 @@ public class GameManager : MonoBehaviour
         
            public IEnumerator HttpCropPost(string url, string address , string itemId , int checkAreaCrop)
         {
-            Debug.Log(address);
+            // Debug.Log(address);
             var dataCrop = new myClass();
             dataCrop.address_wallet = address;
             dataCrop.nft_id = itemId;
             dataCrop.position_plant = checkAreaCrop;
            
             string json = JsonUtility.ToJson(dataCrop);
-            Debug.Log( json);
+            // Debug.Log( json);
             using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
                {
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
+                // var responseCrop = webRequest.downloadHandler.text;
+                // handleCrop crop = JsonConvert.DeserializeObject<handleCrop>(responseCrop);
+                // Debug.Log(crop);
                }
             
         }
 
          //PostHavestNFT
 
-         public IEnumerator HttpHavestPost(string url, string address , string itemId)
+         public IEnumerator HttpHavestPost(string url, string address , string itemId , int checkAreaCrop , int k , Items[] itemData)
         {
             var dataHavest = new myClass();
             dataHavest.address_wallet = address;
             dataHavest.nft_id = itemId;
             
             string json = JsonUtility.ToJson(dataHavest);
-            Debug.Log(json);
+            // Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
             {
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
+                 var responseHavest = webRequest.downloadHandler.text;
+                handleHavest Havest = JsonConvert.DeserializeObject<handleHavest>(responseHavest);
+                resultResponseData = Havest.data;
+                resultResponseStatus = Havest.status;
+                // Debug.Log(Havest.data);
+                // Debug.Log(Havest.status);
+                 if(Havest.status == "success" ){
+                     Debug.Log("right");
+                           
+                         Sprite getSprite = itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                            if(getSprite != null){
+                                 
+                                itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "not_plant";
+                                dataTest[k].status = "not_plant";
+                                showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                             
+                            }
+                            //ทำให้รูปหาย ไม่ได้ลบแต่เปลี่ยนเปนว่างแทน
+                            itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                            //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
+                            if(checkClickItem){
+                            itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                            }
+                            for(int i=0 ; i<itemData.Length;i++){
+                                if(getSprite == itemData[i].itemSprite){
+                                    addItem(itemData[i] , checkAreaCrop);
+                                }
+                            }
+                 }else if(Havest.status == "false"){
+                    Debug.Log("fail");
+                }
 
             }
         }
         
         //PostFeed
-          public IEnumerator HttpFeedPost(string url, string address , string itemId)
+          public IEnumerator HttpFeedPost(string url, string address , string itemId , int checkAreaCrop , int k)
         {
             var dataFeed = new myClass();
             dataFeed.address_wallet = address;
             dataFeed.nft_id = itemId;
             string json = JsonUtility.ToJson(dataFeed);
-            Debug.Log(json);
+            // Debug.Log(json);
            using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
             {
                
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
+                  var responseFeed = webRequest.downloadHandler.text;
+                handleFeed Feed = JsonConvert.DeserializeObject<handleFeed>(responseFeed);
+                resultResponseData = Feed.data.cooldownTime;
+                resultResponseStatus = Feed.status;
+                // Debug.Log(Feed.data.cooldownTime);
+                // Debug.Log(Feed.status);
+                if(Feed.status == "success" ){
+                            Debug.Log("right");
+                           
+                            Sprite getSprite = itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                            if(getSprite != null){
+                                Debug.Log("in");
+                                itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
+                                dataTest[k].status = "wait_harvest";
+                                showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                                timeStart[checkAreaCrop] = 120f;
+                                actionTimeout = true;
+                                numberLand = checkAreaCrop;
+                            }
+                }else if(Feed.status == "false"){
+                    Debug.Log("fail");
+                }
 
+                            
             }
         }
     
@@ -506,7 +555,7 @@ public class GameManager : MonoBehaviour
     public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop ){
           
             if(checkClickItem){
-               Debug.Log(checkAreaCrop);
+            //    Debug.Log(checkAreaCrop);
                 if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11)){
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;

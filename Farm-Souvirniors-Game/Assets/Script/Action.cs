@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Action : MonoBehaviour
 {
 
-    bool clash = false;
+    public bool clash = false;
     [SerializeField] int checkAreaCrop ;
 
     public string checkNftId ;
@@ -27,9 +27,8 @@ public class Action : MonoBehaviour
     
     string urlCropNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/plant-nft";
     string urlHavestNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/harvest-nft";
-
     string urlFeedNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/feed-nft";
-    string addressWallet = "0x629812063124cE2448703B889D754b232B3622BA";
+    
     string itemID ;
 
     bool selectNftUsed = true;
@@ -69,14 +68,14 @@ public class Action : MonoBehaviour
         //ถ้าชน
          if(clash){
 
-                    Debug.Log("OnCropAndHavest");
+                    // Debug.Log("OnCropAndHavest");
                     //เชคเพื่อการปลูก โดยเช็คว่าพื้นตรงนั้นปลูกไปหรือยัง ถ้ายังให้ปลูกได้
                     if((GameManager.instance.checkClickItem &&  GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null)){
-                        Debug.Log("checkCrop");
+                        // Debug.Log("checkCrop");
                         clash = false;
                         for(int i=0;i<GameManager.instance.dataTest.Count;i++){
                             if(selectNftUsed){
-                                Debug.Log(checkAreaCrop);
+                                // Debug.Log(checkAreaCrop);
 
                                     if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName && GameManager.instance.dataTest[i].status == "not_plant"){
 
@@ -99,7 +98,7 @@ public class Action : MonoBehaviour
                             }
                             
                         }
-                        GameManager.instance.Crop(urlCropNFT,addressWallet,itemID,checkAreaCrop);
+                        GameManager.instance.Crop(urlCropNFT,LoadingScreen.same.addressWallet,itemID,checkAreaCrop);
                     }
             for(int k=0;k<GameManager.instance.dataTest.Count;k++){ 
                 //ถ้าตำแหน่งที่ปลูกที่ดึงมาจาก api ตรงกับช่องที่ปลูกที่ยืนอยู่
@@ -107,47 +106,61 @@ public class Action : MonoBehaviour
                        
                     if((GameManager.instance.items.Count < GameManager.instance.slots.Length) && (GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_harvest" && GameManager.instance.timeStart[checkAreaCrop] <= 0)){
                        
-                            Debug.Log("checkHavest");
-                            clash = false;      
-                            Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                            // Debug.Log("checkHavest");
                             getNft_id = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId;
-                            if(getSprite != null){
-                                GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "not_plant";
-                                GameManager.instance.dataTest[k].status = "not_plant";
-                                GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                                StartCoroutine(GameManager.instance.HttpHavestPost(urlHavestNFT,addressWallet,getNft_id));
-                            }
-                            //ทำให้รูปหาย ไม่ได้ลบแต่เปลี่ยนเปนว่างแทน
-                            GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                            //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
-                            if(GameManager.instance.checkClickItem){
-                            GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
-                            }
-                            for(int i=0 ; i<itemData.Length;i++){
-                                if(getSprite == itemData[i].itemSprite){
-                                    GameManager.instance.addItem(itemData[i] , checkAreaCrop);
-                                }
-                            }
+                            clash = false;    
+                            StartCoroutine(GameManager.instance.HttpHavestPost(urlHavestNFT,LoadingScreen.same.addressWallet,getNft_id ,checkAreaCrop,k,itemData )); 
+
+
+                            // Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                            // if(getSprite != null){
+                                 
+                            //     GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "not_plant";
+                            //     GameManager.instance.dataTest[k].status = "not_plant";
+                            //     GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                             
+                            // }
+                            // //ทำให้รูปหาย ไม่ได้ลบแต่เปลี่ยนเปนว่างแทน
+                            // GameManager.instance.itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                            // //เชคถ้าเก็บเกี่ยวแล้วแต่ยังกดไอเทมในเป๋าอยู่ให้ขึ้นกรอบเขียวให้้ปลูกได้
+                            // if(GameManager.instance.checkClickItem){
+                            // GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                            // }
+                            // for(int i=0 ; i<itemData.Length;i++){
+                            //     if(getSprite == itemData[i].itemSprite){
+                            //         GameManager.instance.addItem(itemData[i] , checkAreaCrop);
+                            //     }
+                            // }
                         
                         
                        
             
                     }else if(GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT == "wait_feed" && GameManager.instance.timeStart[checkAreaCrop] <= 0  ){
-                        // && GameManager.instance.textTime[checkAreaCrop].text == null
-                        Debug.Log("checkFeed");
-                        clash = false;
-                        Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                       
                         getNft_id = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId;
-                        if(getSprite != null){
-                        GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
-                        GameManager.instance.dataTest[k].status = "wait_harvest";
-                        GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                         GameManager.instance.timeStart[checkAreaCrop] = 120f;
-                        GameManager.instance.actionTimeout = true;
-                        GameManager.instance.numberLand = checkAreaCrop;
-                        StartCoroutine(GameManager.instance.HttpFeedPost(urlFeedNFT,addressWallet,getNft_id));
+                        clash = false;
                         
-                        }
+                        StartCoroutine(GameManager.instance.HttpFeedPost(urlFeedNFT,LoadingScreen.same.addressWallet,getNft_id,checkAreaCrop,k));
+                        
+                        // if(GameManager.instance.resultResponseStatus == "success" ){
+                        //     Debug.Log("right");
+                        //      clash = false;
+                        //     Sprite getSprite = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
+                        //     getNft_id = GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId;
+                        //     if(getSprite != null){
+                        //         GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
+                        //         GameManager.instance.dataTest[k].status = "wait_harvest";
+                        //         GameManager.instance.showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
+                        //         GameManager.instance.timeStart[checkAreaCrop] = 120f;
+                        //         GameManager.instance.actionTimeout = true;
+                        //         GameManager.instance.numberLand = checkAreaCrop;
+                            
+                        //     }
+                       
+                        
+                        // }else if(GameManager.instance.resultResponseStatus == "false"){
+                        //     Debug.Log("fail");
+                        // }
                     }
                 
                 
