@@ -328,7 +328,7 @@ public class GameManager : MonoBehaviour
 
         //PostCropNFT
         
-           public IEnumerator HttpCropPost(string url, string address , string itemId , int checkAreaCrop)
+           public IEnumerator HttpCropPost(string url, string address , string itemId , int checkAreaCrop , int i)
         {
             // Debug.Log(address);
             var dataCrop = new myClass();
@@ -343,9 +343,18 @@ public class GameManager : MonoBehaviour
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
-                // var responseCrop = webRequest.downloadHandler.text;
-                // handleCrop crop = JsonConvert.DeserializeObject<handleCrop>(responseCrop);
-                // Debug.Log(crop);
+                var responseCrop = webRequest.downloadHandler.text;
+                handleCrop Crop = JsonConvert.DeserializeObject<handleCrop>(responseCrop);
+               timeStart[checkAreaCrop] = Crop.data.cooldownTime; 
+               
+                                                        actionTimeout = true;
+                                                        numberLand = checkAreaCrop;
+                                                        // GameManager.instance.timeStart[checkAreaCrop] = 120f;
+                                                        dataTest[i].status = "wait_feed";
+                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
+                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
+                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
+                                                        
                }
             
         }
@@ -367,8 +376,8 @@ public class GameManager : MonoBehaviour
                 yield return webRequest.SendWebRequest();
                  var responseHavest = webRequest.downloadHandler.text;
                 handleHavest Havest = JsonConvert.DeserializeObject<handleHavest>(responseHavest);
-                resultResponseData = Havest.data;
-                resultResponseStatus = Havest.status;
+                // resultResponseData = Havest.data;
+                // resultResponseStatus = Havest.status;
                 // Debug.Log(Havest.data);
                 // Debug.Log(Havest.status);
                  if(Havest.status == "success" ){
@@ -416,8 +425,8 @@ public class GameManager : MonoBehaviour
                 yield return webRequest.SendWebRequest();
                   var responseFeed = webRequest.downloadHandler.text;
                 handleFeed Feed = JsonConvert.DeserializeObject<handleFeed>(responseFeed);
-                resultResponseData = Feed.data.cooldownTime;
-                resultResponseStatus = Feed.status;
+                // resultResponseData = Feed.data.cooldownTime;
+                // resultResponseStatus = Feed.status;
                 // Debug.Log(Feed.data.cooldownTime);
                 // Debug.Log(Feed.status);
                 if(Feed.status == "success" ){
@@ -429,7 +438,7 @@ public class GameManager : MonoBehaviour
                                 itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_harvest";
                                 dataTest[k].status = "wait_harvest";
                                 showCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite = null;
-                                timeStart[checkAreaCrop] = 120f;
+                                timeStart[checkAreaCrop] = Feed.data.cooldownTime;
                                 actionTimeout = true;
                                 numberLand = checkAreaCrop;
                             }
@@ -552,12 +561,12 @@ public class GameManager : MonoBehaviour
          displayItems();  
     }
 
-    public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop ){
+    public void Crop (string urlCropNFT, string addressWallet ,string itemID ,int checkAreaCrop,int i ){
           
             if(checkClickItem){
             //    Debug.Log(checkAreaCrop);
                 if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11)){
-                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
+                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                 itemNumbers[indexAmountItem]--;
@@ -565,7 +574,7 @@ public class GameManager : MonoBehaviour
 
                 else if(chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17  ))
                 {
-                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop));
+                StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
                 itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                 itemNumbers[indexAmountItem]--;

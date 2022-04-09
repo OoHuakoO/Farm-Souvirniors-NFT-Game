@@ -46,14 +46,21 @@ public class myClass
 }
 
 
-
+public class handleCrop
+{
+  public ObjectDataCrop data ;
+  public string status ;
+}
+public class ObjectDataCrop{
+  public float cooldownTime;
+}
 public class handleFeed
 {
   public ObjectDataFeed data ;
   public string status ;
 }
 public class ObjectDataFeed{
-  public string cooldownTime;
+  public float cooldownTime;
 }
 
 public class handleHavest

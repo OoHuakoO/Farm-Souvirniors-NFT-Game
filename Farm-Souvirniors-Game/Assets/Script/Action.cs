@@ -78,16 +78,18 @@ public class Action : MonoBehaviour
                                 // Debug.Log(checkAreaCrop);
 
                                     if(GameManager.instance.dataTest[i].name == GameManager.instance.chooseItem.itemName && GameManager.instance.dataTest[i].status == "not_plant"){
-
                                                         itemID = GameManager.instance.dataTest[i].nft_id;
-                                                        GameManager.instance.actionTimeout = true;
-                                                        GameManager.instance.numberLand = checkAreaCrop;
-                                                        GameManager.instance.timeStart[checkAreaCrop] = 120f;
-                                                        GameManager.instance.dataTest[i].status = "wait_feed";
-                                                        GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
-                                                        GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
-                                                        GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
                                                         selectNftUsed = false;
+                                                        GameManager.instance.Crop(urlCropNFT,LoadingScreen.same.addressWallet,itemID,checkAreaCrop , i);
+                                                     
+                                                        // GameManager.instance.actionTimeout = true;
+                                                        // GameManager.instance.numberLand = checkAreaCrop;
+                                                        // // GameManager.instance.timeStart[checkAreaCrop] = 120f;
+                                                        // GameManager.instance.dataTest[i].status = "wait_feed";
+                                                        // GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
+                                                        // GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
+                                                        // GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
+                                                       
                                          
                                     } 
 
@@ -98,7 +100,7 @@ public class Action : MonoBehaviour
                             }
                             
                         }
-                        GameManager.instance.Crop(urlCropNFT,LoadingScreen.same.addressWallet,itemID,checkAreaCrop);
+                      
                     }
             for(int k=0;k<GameManager.instance.dataTest.Count;k++){ 
                 //ถ้าตำแหน่งที่ปลูกที่ดึงมาจาก api ตรงกับช่องที่ปลูกที่ยืนอยู่
