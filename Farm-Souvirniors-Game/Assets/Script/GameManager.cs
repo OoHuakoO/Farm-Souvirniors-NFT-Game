@@ -53,10 +53,6 @@ public class GameManager : MonoBehaviour
 
     public int numberLand ;
 
-
-    
-
-
     public string urlGetNFT ;
     public TextMesh[] textTime;
 
@@ -66,6 +62,8 @@ public class GameManager : MonoBehaviour
 
     public string resultResponseData ;
     public string resultResponseStatus ;
+
+    public GameObject PopUp; 
 
 
 
@@ -87,7 +85,7 @@ public class GameManager : MonoBehaviour
     
 
    private void Start() {
-
+            PopUp.SetActive(false);
             urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/" + LoadingScreen.same.addressWallet;
        
             StartCoroutine(HttpGet(urlGetNFT));
@@ -404,6 +402,7 @@ public class GameManager : MonoBehaviour
                             }
                  }else if(Havest.status == "false"){
                     Debug.Log("fail");
+                    PopUp.SetActive(true);
                 }
 
             }
@@ -444,6 +443,7 @@ public class GameManager : MonoBehaviour
                             }
                 }else if(Feed.status == "false"){
                     Debug.Log("fail");
+                    PopUp.SetActive(true);
                 }
 
                             

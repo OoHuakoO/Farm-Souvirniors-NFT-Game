@@ -22,26 +22,26 @@ public class EventsButton : MonoBehaviour
         craft.SetActive(false);
         Button button1 = buttonCraft.GetComponent<Button>();
         Button button2 = buttonBag.GetComponent<Button>();
-        button1.onClick.AddListener(() => clickCraft());
+        // button1.onClick.AddListener(() => clickCraft());
         button2.onClick.AddListener(() => clickBag());
      
     }
 
-    void clickCraft (){
+    // void clickCraft (){
       
 
-            if(craft.activeInHierarchy == false){
+    //         if(craft.activeInHierarchy == false){
         
-            craft.SetActive(true);
-        }else{
+    //         craft.SetActive(true);
+    //     }else{
     
-            craft.SetActive(false);
-        }
-        if(bag.activeInHierarchy){
-            bag.SetActive(false);
-        }
+    //         craft.SetActive(false);
+    //     }
+    //     if(bag.activeInHierarchy){
+    //         bag.SetActive(false);
+    //     }
         
-    }
+    // }
     void clickBag (){
  
         if(bag.activeInHierarchy == false){
