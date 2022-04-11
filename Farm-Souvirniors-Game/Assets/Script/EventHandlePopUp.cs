@@ -8,6 +8,8 @@ public class EventHandlePopUp : MonoBehaviour
 
      public Button buttonX;
      [SerializeField] GameObject PopUp;
+    
+
 
     // Start is called before the first frame update
     void Start()

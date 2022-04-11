@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     public string resultResponseStatus ;
 
     public GameObject PopUp; 
+    public TextMeshProUGUI textPopUp;
 
 
 
@@ -402,6 +403,7 @@ public class GameManager : MonoBehaviour
                             }
                  }else if(Havest.status == "false"){
                     Debug.Log("fail");
+                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text =  Havest.data;
                     PopUp.SetActive(true);
                 }
 
@@ -443,6 +445,7 @@ public class GameManager : MonoBehaviour
                             }
                 }else if(Feed.status == "false"){
                     Debug.Log("fail");
+                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text = "Not Time To Feed";
                     PopUp.SetActive(true);
                 }
 
