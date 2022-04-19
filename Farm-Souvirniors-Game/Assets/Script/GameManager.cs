@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Runtime.InteropServices;
 
 
 
@@ -81,11 +82,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
    }
 
+    [DllImport("__Internal")]
+    private static extern void GameOver (string action);
+
+//   public void SomeMethod () {
+//     if(UNITY_WEBGL == true && UNITY_EDITOR == false){
+//       GameOver ();
+//     } 
+
+
   
 
     
 
    private void Start() {
+            WebGLInput.captureAllKeyboardInput = false;
             PopUp.SetActive(false);
             urlGetNFT = "https://farm-souvirniors-api.herokuapp.com/in-game/get-owner-nft/" + LoadingScreen.same.addressWallet;
        
@@ -340,19 +351,46 @@ public class GameManager : MonoBehaviour
             using(UnityWebRequest webRequest = UnityWebRequest.Post(url, json))
                {
                 webRequest.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
-                  webRequest.SetRequestHeader("Content-Type", "application/json");
+                webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
                 var responseCrop = webRequest.downloadHandler.text;
                 handleCrop Crop = JsonConvert.DeserializeObject<handleCrop>(responseCrop);
-               timeStart[checkAreaCrop] = Crop.data.cooldownTime; 
-               
-                                                        actionTimeout = true;
-                                                        numberLand = checkAreaCrop;
-                                                        // GameManager.instance.timeStart[checkAreaCrop] = 120f;
-                                                        dataTest[i].status = "wait_feed";
-                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
-                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
-                                                        itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
+                if(Crop.status == "success"){
+                    
+                        
+                     timeStart[checkAreaCrop] = Crop.data.cooldownTime; 
+                        actionTimeout = true;
+                        numberLand = checkAreaCrop;
+                          itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
+                        itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
+                       
+                        itemNumbers[indexAmountItem]--;
+                        if(itemNumbers[indexAmountItem] == 0){   
+                            items.Remove(chooseItem);
+                            itemNumbers.Remove(itemNumbers[indexAmountItem]);
+                            checkClickItem = false;
+                            slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
+                            slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
+                        //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
+                        for(int y=0 ; y<itemsCrop.Length ;y++){
+                            if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                            }
+                        }
+                        GameOver("Crop");
+                displayItems();
+                }
+                        // GameManager.instance.timeStart[checkAreaCrop] = 120f;
+                        dataTest[i].status = "wait_feed";
+                        itemsCrop[checkAreaCrop].GetComponent<Action>().typeNFT = GameManager.instance.dataTest[i].type;
+                        itemsCrop[checkAreaCrop].GetComponent<Action>().checkNftId = GameManager.instance.dataTest[i].nft_id;
+                        itemsCrop[checkAreaCrop].GetComponent<Action>().statusNFT = "wait_feed";
+                }
+                else if(Crop.status == "false"){
+                    Debug.Log("Cropfail");
+                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text =  Crop.data.text;
+                    PopUp.SetActive(true);
+                }
                                                         
                }
             
@@ -374,13 +412,10 @@ public class GameManager : MonoBehaviour
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
                  var responseHavest = webRequest.downloadHandler.text;
+               
                 handleHavest Havest = JsonConvert.DeserializeObject<handleHavest>(responseHavest);
-                // resultResponseData = Havest.data;
-                // resultResponseStatus = Havest.status;
-                // Debug.Log(Havest.data);
-                // Debug.Log(Havest.status);
                  if(Havest.status == "success" ){
-                     Debug.Log("right");
+                     
                            
                          Sprite getSprite = itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
                             if(getSprite != null){
@@ -401,9 +436,10 @@ public class GameManager : MonoBehaviour
                                     addItem(itemData[i] , checkAreaCrop);
                                 }
                             }
+                            GameOver("Havest");
                  }else if(Havest.status == "false"){
-                    Debug.Log("fail");
-                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text =  Havest.data;
+                    Debug.Log("Havestfail");
+                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text =  Havest.data.text;
                     PopUp.SetActive(true);
                 }
 
@@ -425,13 +461,11 @@ public class GameManager : MonoBehaviour
                   webRequest.SetRequestHeader("Content-Type", "application/json");
                 yield return webRequest.SendWebRequest();
                   var responseFeed = webRequest.downloadHandler.text;
+                  
                 handleFeed Feed = JsonConvert.DeserializeObject<handleFeed>(responseFeed);
-                // resultResponseData = Feed.data.cooldownTime;
-                // resultResponseStatus = Feed.status;
-                // Debug.Log(Feed.data.cooldownTime);
-                // Debug.Log(Feed.status);
+                Debug.Log(Feed);
                 if(Feed.status == "success" ){
-                            Debug.Log("right");
+                           
                            
                             Sprite getSprite = itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite;
                             if(getSprite != null){
@@ -443,9 +477,10 @@ public class GameManager : MonoBehaviour
                                 actionTimeout = true;
                                 numberLand = checkAreaCrop;
                             }
+                            GameOver("Feed");
                 }else if(Feed.status == "false"){
-                    Debug.Log("fail");
-                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text = "Not Time To Feed";
+                    Debug.Log("Feedfail");
+                    textPopUp.transform.GetComponent<TextMeshProUGUI>().text = Feed.data.text;
                     PopUp.SetActive(true);
                 }
 
@@ -570,36 +605,36 @@ public class GameManager : MonoBehaviour
             //    Debug.Log(checkAreaCrop);
                 if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11)){
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
-                itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
-                itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
-                itemNumbers[indexAmountItem]--;
+                // itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
+                // itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
+                // itemNumbers[indexAmountItem]--;
                 }
 
                 else if(chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17  ))
                 {
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
-                itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
-                itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
-                itemNumbers[indexAmountItem]--;
+                // itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
+                // itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
+                // itemNumbers[indexAmountItem]--;
                 }
                
                  
             
                 
-                if(itemNumbers[indexAmountItem] == 0){   
-                    items.Remove(chooseItem);
-                    itemNumbers.Remove(itemNumbers[indexAmountItem]);
-                    checkClickItem = false;
-                    slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
-                    slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
-                    //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
-                        for(int y=0 ; y<itemsCrop.Length ;y++){
-                            if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                                itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
-                            }
-                        }
+                // if(itemNumbers[indexAmountItem] == 0){   
+                //     items.Remove(chooseItem);
+                //     itemNumbers.Remove(itemNumbers[indexAmountItem]);
+                //     checkClickItem = false;
+                //     slots[indexAmountItem].transform.GetComponent<Image>().sprite = null;
+                //     slots[indexAmountItem].transform.GetComponent<Image>().color = new Color(1,1,1,0);
+                //     //ถ้าตรงไหนไม่ได้ปลูกให้ช่องเขียวหายไป
+                //         for(int y=0 ; y<itemsCrop.Length ;y++){
+                //             if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                //                 itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+                //             }
+                //         }
              
-                }
+                // }
             }
       displayItems();
     } 

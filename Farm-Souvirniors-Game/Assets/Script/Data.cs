@@ -52,21 +52,31 @@ public class handleCrop
   public string status ;
 }
 public class ObjectDataCrop{
-  public float cooldownTime;
+    public string text;
+    public float cooldownTime;
+    
 }
+
 public class handleFeed
 {
   public ObjectDataFeed data ;
-  public string status ;
+  public string status ; 
 }
 public class ObjectDataFeed{
+  public string text;
   public float cooldownTime;
 }
 
 public class handleHavest
 {
-  public string data ;
+  public ObjectDataHavest data ;
   public string status ;
 }
+
+public class ObjectDataHavest
+{
+  public string text;
+}
+
 
 
