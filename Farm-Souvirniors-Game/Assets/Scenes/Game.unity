@@ -824,6 +824,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 5
       objectReference: {fileID: 0}
@@ -1353,6 +1357,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 2
@@ -3184,6 +3192,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 8
@@ -17105,6 +17117,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 7
       objectReference: {fileID: 0}
@@ -17840,6 +17856,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 4
@@ -18731,6 +18751,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 14
       objectReference: {fileID: 0}
@@ -18816,7 +18840,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: statusNFT
-      value: 
+      value: not_plant
       objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
@@ -20295,6 +20319,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 11
       objectReference: {fileID: 0}
@@ -20875,6 +20903,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 16
@@ -22686,6 +22718,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 13
       objectReference: {fileID: 0}
@@ -24228,6 +24264,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 10
@@ -28805,7 +28845,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: statusNFT
-      value: 
+      value: not_plant
       objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
@@ -29332,6 +29372,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 6
       objectReference: {fileID: 0}
@@ -29735,7 +29779,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: statusNFT
-      value: 
+      value: not_plant
       objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
@@ -30465,6 +30509,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 9
       objectReference: {fileID: 0}
@@ -31005,6 +31053,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 15
@@ -32188,6 +32240,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 0
       objectReference: {fileID: 0}
@@ -32252,6 +32308,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
+      propertyPath: statusNFT
+      value: not_plant
+      objectReference: {fileID: 0}
     - target: {fileID: 1915247841, guid: e18601c5f902d0147a7dfb671002ea17, type: 3}
       propertyPath: checkAreaCrop
       value: 12
