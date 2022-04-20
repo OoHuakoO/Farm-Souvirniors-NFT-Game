@@ -130,11 +130,11 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update(){     
-        // for(int e=0;e<dataTest.Count;e++){
-        //         Debug.Log(dataTest[e].name);
-        //         Debug.Log(dataTest[e].status);
-        //     }
-        // Debug.Log(resultResponseData);
+        for(int e=0;e<dataTest.Count;e++){
+                Debug.Log(dataTest[e].name);
+                Debug.Log(dataTest[e].status);
+            }
+        Debug.Log(resultResponseData);
           for(int i = 0 ;i<timeStart.Count;i++){
           
                     timeStart[i] -= Time.deltaTime;
