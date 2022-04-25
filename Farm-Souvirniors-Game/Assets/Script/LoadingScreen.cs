@@ -34,7 +34,7 @@ public class LoadingScreen : MonoBehaviour
  
     
     private void Start() {
-        Testing("0x1B7AAdF746c0B06CE987143C3770602e8894FD88");
+        Testing("0x629812063124cE2448703B889D754b232B3622BA");
         
         StartCoroutine(cooldowntime());
        

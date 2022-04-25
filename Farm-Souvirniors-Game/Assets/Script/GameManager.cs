@@ -130,11 +130,11 @@ public class GameManager : MonoBehaviour
     }
 
     private void Update(){     
-        for(int e=0;e<dataTest.Count;e++){
-                Debug.Log(dataTest[e].name);
-                Debug.Log(dataTest[e].status);
-            }
-        Debug.Log(resultResponseData);
+        // for(int e=0;e<dataTest.Count;e++){
+        //         Debug.Log(dataTest[e].name);
+        //         Debug.Log(dataTest[e].status);
+        //     }
+        // Debug.Log(resultResponseData);
           for(int i = 0 ;i<timeStart.Count;i++){
           
                     timeStart[i] -= Time.deltaTime;
@@ -547,24 +547,24 @@ public class GameManager : MonoBehaviour
                      //เชคว่ามีต้นปลูกยุแล้วไหมถ้าไม่มีให้ขึ้นสีเขียว
 
                     if(item.type == "plant"){
-                        for(int j=12 ; j<18 ;j++){
+                        for(int j=16 ; j<32 ;j++){
                             if(itemsCrop[j].GetComponent<SpriteRenderer>().sprite == null){
                                 itemsCrop[j].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
                             }
                         }
-                        for(int y=0 ; y<12  ;y++){
-                        if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
-                            itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
-                        }
+                        for(int y=0 ; y<16  ;y++){
+                            if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
+                                itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
+                            }
                     }
                     }
                     else if(item.type == "animal"){
-                        for(int y=0 ; y<12  ;y++){
+                        for(int y=0 ; y<16  ;y++){
                             if(itemsCrop[y].GetComponent<SpriteRenderer>().sprite == null){
                                 itemsCrop[y].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
                             }
                         }
-                        for(int j=12 ; j<18 ;j++){
+                        for(int j=16 ; j<32 ;j++){
                             if(itemsCrop[j].GetComponent<SpriteRenderer>().sprite == null){
                                 itemsCrop[j].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                             }
@@ -592,14 +592,14 @@ public class GameManager : MonoBehaviour
           
             if(checkClickItem){
             //    Debug.Log(checkAreaCrop);
-                if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11)){
+                if(chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11 || checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 )){
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
                 // itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;
                 // itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color =  new Color(0,0.5f,0.3f,0);
                 // itemNumbers[indexAmountItem]--;
                 }
 
-                else if(chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17  ))
+                else if(chooseItem.type == "animal" && (checkAreaCrop == 16 || checkAreaCrop == 17 || checkAreaCrop == 18 || checkAreaCrop == 19 || checkAreaCrop == 20 || checkAreaCrop == 21 || checkAreaCrop == 22 || checkAreaCrop == 23 || checkAreaCrop == 24 || checkAreaCrop == 25 || checkAreaCrop == 26 || checkAreaCrop == 27 || checkAreaCrop == 28 || checkAreaCrop == 29 || checkAreaCrop == 30 || checkAreaCrop == 31  ))
                 {
                 StartCoroutine(HttpCropPost(urlCropNFT,addressWallet,itemID,checkAreaCrop,i));
                 // itemsCrop[checkAreaCrop].transform.GetComponent<SpriteRenderer>().sprite =  chooseItem.itemSprite;

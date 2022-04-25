@@ -45,13 +45,13 @@ public class Action : MonoBehaviour
         if(other.tag == "Player"){
             clash = false;
 
-
+            
             //  GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
 
          
-                if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
+                if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "plant" && (checkAreaCrop == 0 || checkAreaCrop == 1 || checkAreaCrop == 2 || checkAreaCrop == 3 || checkAreaCrop == 4 || checkAreaCrop == 5 || checkAreaCrop == 6 || checkAreaCrop == 7 || checkAreaCrop == 8 || checkAreaCrop == 9 || checkAreaCrop == 10 || checkAreaCrop == 11 || checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
                     GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
-                }else if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "animal" && (checkAreaCrop == 12 || checkAreaCrop == 13 || checkAreaCrop == 14 || checkAreaCrop == 15 || checkAreaCrop == 16 || checkAreaCrop == 17 ) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
+                }else if(GameManager.instance.checkClickItem && GameManager.instance.chooseItem.type == "animal" && (checkAreaCrop == 16 || checkAreaCrop == 17 || checkAreaCrop == 18 || checkAreaCrop == 19 || checkAreaCrop == 20 || checkAreaCrop == 21 || checkAreaCrop == 22 || checkAreaCrop == 23 || checkAreaCrop == 24 || checkAreaCrop == 25 || checkAreaCrop == 26 || checkAreaCrop == 27 || checkAreaCrop == 28 || checkAreaCrop == 29 || checkAreaCrop == 30 || checkAreaCrop == 31 ) && GameManager.instance.itemsCrop[checkAreaCrop].GetComponent<SpriteRenderer>().sprite == null ){
                      GameManager.instance.itemsCrop[checkAreaCrop].transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0,0.5f,0.3f,0.5f);
                 }
                 else
