@@ -19,22 +19,22 @@ public class LoadingScreen : MonoBehaviour
         }
    }
    
-    // public void SpawnEnemies (string amount) {
-    // Debug.Log ($"Your Token Is '{amount}' ");
-    // addressWallet = amount;
-    // }
+    public void SpawnEnemies (string amount) {
+    Debug.Log ($"Your Token Is '{amount}' ");
+    addressWallet = amount;
+    }
 
 
     
-    public void Testing (string amount) {
-    Debug.Log ($"Spawning {amount} enemies!");
-    addressWallet = amount;
-    Debug.Log(addressWallet);
-    }
+    // public void Testing (string amount) {
+    // Debug.Log ($"Spawning {amount} enemies!");
+    // addressWallet = amount;
+    // Debug.Log(addressWallet);
+    // }
  
     
     private void Start() {
-        Testing("0x629812063124cE2448703B889D754b232B3622BA");
+        // Testing("0x629812063124cE2448703B889D754b232B3622BA");
         
         StartCoroutine(cooldowntime());
        

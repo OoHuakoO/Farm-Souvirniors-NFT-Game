@@ -123,6 +123,20 @@ public class GameManager : MonoBehaviour
                 timeStart.Add(0);
                  timeStart.Add(0);
                 timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
+                timeStart.Add(0);
               
            
        
